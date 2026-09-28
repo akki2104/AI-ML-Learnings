@@ -13,14 +13,14 @@
 
 ## Phase 1 — Vocabulary & RAG Core (Sessions 1–5, Weeks 1–2)
 
-*Goal: Be able to walk through your Genzeon RAG pipeline in an interview with full vocabulary.*
+*Goal: Be able to walk through a full RAG pipeline in an interview with full vocabulary.*
 
 | Session | Topics | Est. Time | Focus |
 |---------|--------|-----------|-------|
 | 1 | A001 Transformers · A002 Embeddings | ~75 min | The vocabulary foundation |
 | 2 | B001 RAG Overview · B002 Chunking · B003 Embedding Models | ~110 min | RAG indexing layer |
 | 3 | B004 Vector DBs · B005 Dense vs Sparse | ~75 min | Retrieval decision matrix |
-| 4 | B006 Reranking · B007 RAG Evaluation | ~80 min | Your actual Genzeon work |
+| 4 | B006 Reranking · B007 RAG Evaluation | ~80 min | Hands-on retrieval quality work |
 | 5 | B008 Advanced RAG · B009 Hallucination Mitigation | ~70 min | Depth topics |
 
 **Phase 1 gate:** You can whiteboard a complete RAG pipeline with justifications for every
@@ -30,7 +30,7 @@ tech choice (chunking, embedding model, vector DB, reranker) and name your evalu
 
 ## Phase 2 — Model Hosting & Inference (Sessions 6–8, Week 3)
 
-*Goal: Explain how Mistral-7B runs at Genzeon — llama.cpp vs vLLM, quantization, numbers.*
+*Goal: Explain how a 7B-class LLM runs in production — llama.cpp vs vLLM, quantization, numbers.*
 
 | Session | Topics | Est. Time | Focus |
 |---------|--------|-----------|-------|
@@ -65,7 +65,7 @@ the RAG vs fine-tuning vs prompting decision tree, and design the application la
 
 | Session | Topics | Est. Time | Focus |
 |---------|--------|-----------|-------|
-| 13 | F001 Document Q&A System (RAG at scale) | ~60 min | Your core Genzeon work |
+| 13 | F001 Document Q&A System (RAG at scale) | ~60 min | Your core hands-on RAG work |
 | 14 | F002 LLM Inference Service | ~60 min | Model serving at scale |
 | 15 | F003 Multi-Agent Code Review · F004 Recommendation System | ~100 min | Breadth case studies |
 | 16 | F005 Content Moderation · F006 RAG + Eval Feedback Loop | ~90 min | Production maturity |

@@ -6,7 +6,7 @@ This is a **separate track** from the System Design curriculum at `../system des
 ## What This Repository Is
 
 AI/ML interview preparation for Akash Yadav — LLM/AI Engineer roles at product companies.
-Hands-on experience at Genzeon (RAG, Mistral-7B, pgvector, cross-encoders, LangGraph).
+Hands-on experience with RAG pipelines, vector search, cross-encoder reranking, and LLM agent orchestration.
 Gap: interview framing — architectural decisions, tradeoffs, evaluation, "design an AI system."
 
 ## Session Workflow

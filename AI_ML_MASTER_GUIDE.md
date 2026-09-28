@@ -1,7 +1,7 @@
 # AI/ML Interview Prep — Master Guide
 
-> **Who this is for:** Akash Yadav, Associate Software Engineer at Genzeon.
-> Hands-on experience with RAG pipelines, Mistral-7B inference, pgvector, cross-encoder
+> **Who this is for:** Akash Yadav, Associate Software Engineer.
+> Hands-on experience with RAG pipelines, LLM inference, pgvector, cross-encoder
 > reranking, LangGraph agents, and LLM tool-calling. Strong backend/distributed systems base.
 > Gap: interview framing — how to explain architectural decisions, compare approaches,
 > and answer "design an AI system" questions under interview conditions.
@@ -64,7 +64,6 @@
 │ Tier: 🔴 MUST / 🟡 SKIM / ⚫ SKIP                          │
 │ Estimated time: [X min]                                     │
 │ Complexity: [Low / Medium / High]                           │
-│ Genzeon relevance: [Direct / Adjacent / Background]         │
 │ Skip cost: [what you lose if you skip this]                 │
 │ Interview frequency: [Common / Moderate / Rare]             │
 └─────────────────────────────────────────────────────────────┘
@@ -94,12 +93,12 @@ Legend: 🔴 full lesson (30–50 min) · 🟡 condensed (15–20 min) · ⚫ sk
 *Why first:* You can't explain RAG or inference decisions in interviews without knowing
 what a transformer is and why tokens work the way they do. These are the vocabulary topics.
 
-| ID | Topic | Tier | Time | Genzeon Link |
-|----|-------|------|------|--------------|
-| A001 | Transformer Architecture & Attention | 🔴 | 40 min | Explains why Mistral-7B behaves the way it does |
-| A002 | Embeddings & Semantic Similarity | 🔴 | 35 min | Direct — you build embedding indexes with pgvector |
-| A003 | Tokens, Context Windows & Inference Basics | 🟡 | 20 min | Context window limits your RAG chunk strategy |
-| A004 | LLM Providers & APIs — GPT-4, Claude, Gemini, Groq | 🟡 | 15 min | You've used Gemini + Groq in Hemut project |
+| ID | Topic | Tier | Time |
+|----|-------|------|------|
+| A001 | Transformer Architecture & Attention | 🔴 | 40 min |
+| A002 | Embeddings & Semantic Similarity | 🔴 | 35 min |
+| A003 | Tokens, Context Windows & Inference Basics | 🟡 | 20 min |
+| A004 | LLM Providers & APIs — GPT-4, Claude, Gemini, Groq | 🟡 | 15 min |
 
 **Module A Learning Outcome:** Given an LLM at inference time, you can explain what happens
 from token generation to the final output — attention over context, KV cache, sampling.
@@ -113,17 +112,17 @@ You can also explain *why* embeddings represent semantic meaning.
 Interviewers at AI-forward companies will probe every layer of your RAG pipeline.
 You built it; now learn to explain every architectural decision.
 
-| ID | Topic | Tier | Time | Genzeon Link |
-|----|-------|------|------|--------------|
-| B001 | RAG Architecture Overview — indexing vs retrieval vs generation | 🔴 | 40 min | You built this end-to-end |
-| B002 | Chunking Strategies — fixed, recursive, semantic, parent-child, proposition | 🔴 | 35 min | Your clinical doc pipeline chose a chunking strategy |
-| B003 | Embedding Models — sentence-transformers, OpenAI, BGE, Cohere | 🔴 | 35 min | You used sentence-transformers in production |
-| B004 | Vector Databases — pgvector vs Pinecone vs Weaviate vs Chroma | 🔴 | 40 min | You chose pgvector; learn why and when NOT to |
-| B005 | Dense vs Sparse Retrieval — BM25, hybrid search, SPLADE | 🔴 | 35 min | Your pipeline may be pure dense; learn the hybrid tradeoff |
-| B006 | Reranking — cross-encoders, ColBERT, LLM rerankers | 🔴 | 40 min | You built cross-encoder reranking at Genzeon |
-| B007 | RAG Evaluation — RAGAS: faithfulness, answer relevancy, context recall | 🔴 | 40 min | Did your pipeline have eval? Interviewers always ask |
-| B008 | Advanced RAG — HyDE, multi-query, self-RAG, corrective RAG | 🔴 | 35 min | Techniques above what you've built — know the names |
-| B009 | Hallucination Detection & Mitigation — confidence scoring, grounding | 🔴 | 35 min | You built confidence scoring + source attribution |
+| ID | Topic | Tier | Time |
+|----|-------|------|------|
+| B001 | RAG Architecture Overview — indexing vs retrieval vs generation | 🔴 | 40 min |
+| B002 | Chunking Strategies — fixed, recursive, semantic, parent-child, proposition | 🔴 | 35 min |
+| B003 | Embedding Models — sentence-transformers, OpenAI, BGE, Cohere | 🔴 | 35 min |
+| B004 | Vector Databases — pgvector vs Pinecone vs Weaviate vs Chroma | 🔴 | 40 min |
+| B005 | Dense vs Sparse Retrieval — BM25, hybrid search, SPLADE | 🔴 | 35 min |
+| B006 | Reranking — cross-encoders, ColBERT, LLM rerankers | 🔴 | 40 min |
+| B007 | RAG Evaluation — RAGAS: faithfulness, answer relevancy, context recall | 🔴 | 40 min |
+| B008 | Advanced RAG — HyDE, multi-query, self-RAG, corrective RAG | 🔴 | 35 min |
+| B009 | Hallucination Detection & Mitigation — confidence scoring, grounding | 🔴 | 35 min |
 
 **Module B Learning Outcome:** Given "design a RAG system for X", you can walk through
 every architectural decision (chunking → embedding → retrieval → reranking → generation),
@@ -133,19 +132,19 @@ justify each choice with tradeoffs, and explain how you'd evaluate and monitor i
 
 ### Module C — Model Hosting & Inference (7 topics)
 
-*Why:* You ran Mistral-7B in production. Interviewers will ask: how did you host it?
+*Why:* Interviewers will ask: how do you host a 7B-class LLM in production?
 What's the difference between llama.cpp and vLLM? How do you scale it?
 You need to answer these with numbers, not vibes.
 
-| ID | Topic | Tier | Time | Genzeon Link |
-|----|-------|------|------|--------------|
-| C001 | Inference Serving Basics — batching, KV cache, PagedAttention (theory) | 🔴 | 35 min | Foundation for understanding vLLM |
-| C002 | llama.cpp & Local Inference — GGUF, CPU/GPU offload, when to use | 🔴 | 40 min | Genzeon likely uses this or Ollama (which wraps it) |
-| C003 | vLLM & Production Serving — PagedAttention deep dive, continuous batching | 🔴 | 45 min | Production Mistral-7B serving benchmark |
-| C004 | Other Serving Frameworks — TGI, TensorRT-LLM, Ollama — comparison | 🟡 | 20 min | Know when each wins |
-| C005 | Quantization — GGUF, GPTQ, AWQ, INT8/INT4 tradeoffs | 🔴 | 35 min | Why Mistral-7B-Q4 vs Q8 vs full precision |
-| C006 | Latency vs Throughput — speculative decoding, streaming, continuous batching | 🔴 | 35 min | Core interview numbers topic |
-| C007 | Scaling Inference — horizontal replicas, GPU vertical, tensor/pipeline parallel | 🟡 | 25 min | Design question: serve to 10K RPS |
+| ID | Topic | Tier | Time |
+|----|-------|------|------|
+| C001 | Inference Serving Basics — batching, KV cache, PagedAttention (theory) | 🔴 | 35 min |
+| C002 | llama.cpp & Local Inference — GGUF, CPU/GPU offload, when to use | 🔴 | 40 min |
+| C003 | vLLM & Production Serving — PagedAttention deep dive, continuous batching | 🔴 | 45 min |
+| C004 | Other Serving Frameworks — TGI, TensorRT-LLM, Ollama — comparison | 🟡 | 20 min |
+| C005 | Quantization — GGUF, GPTQ, AWQ, INT8/INT4 tradeoffs | 🔴 | 35 min |
+| C006 | Latency vs Throughput — speculative decoding, streaming, continuous batching | 🔴 | 35 min |
+| C007 | Scaling Inference — horizontal replicas, GPU vertical, tensor/pipeline parallel | 🟡 | 25 min |
 
 **Module C Learning Outcome:** You can compare llama.cpp, vLLM, TGI, and Ollama on a
 whiteboard, pick the right one for a given constraint (latency budget, GPU budget, scale),
@@ -159,13 +158,13 @@ for a 7B model on a single A100.
 *Why:* Even if you've never fine-tuned a model, interviewers ask "would you fine-tune here,
 and why?" You need the vocabulary and the decision tree — not the implementation.
 
-| ID | Topic | Tier | Time | Genzeon Link |
-|----|-------|------|------|--------------|
-| D001 | When to Fine-tune vs RAG vs Prompting — the core decision tree | 🔴 | 40 min | The single most common AI system design question setup |
-| D002 | Fine-tuning Approaches — LoRA, QLoRA, full fine-tuning, memory math | 🔴 | 40 min | LoRA: know parameters, rank, target modules |
-| D003 | RLHF Basics — PPO vs DPO, why it matters for alignment | 🟡 | 20 min | Conceptual only — why ChatGPT doesn't just predict next token |
-| D004 | Training Data Requirements — quality vs quantity, synthetic data, flywheel | 🟡 | 20 min | Your clinical pipeline generates data — this is the eval loop |
-| D005 | Model Evaluation & Benchmarking — MMLU, HumanEval, domain evals | 🟡 | 20 min | How to know if your fine-tuned model is better |
+| ID | Topic | Tier | Time |
+|----|-------|------|------|
+| D001 | When to Fine-tune vs RAG vs Prompting — the core decision tree | 🔴 | 40 min |
+| D002 | Fine-tuning Approaches — LoRA, QLoRA, full fine-tuning, memory math | 🔴 | 40 min |
+| D003 | RLHF Basics — PPO vs DPO, why it matters for alignment | 🟡 | 20 min |
+| D004 | Training Data Requirements — quality vs quantity, synthetic data, flywheel | 🟡 | 20 min |
+| D005 | Model Evaluation & Benchmarking — MMLU, HumanEval, domain evals | 🟡 | 20 min |
 
 **Module D Learning Outcome:** When an interviewer says "your RAG isn't performing well —
 what do you do?", you can walk through the decision tree: improve retrieval → improve
@@ -176,22 +175,22 @@ parameter level (rank, target modules, VRAM required).
 
 ### Module E — LLM Application Architecture (6 topics)
 
-*Why:* These are the "how do you build an LLM product" topics. You've built most of
-this at Genzeon (tool calling, agents, guardrails, cost control) but need the vocabulary
-to explain it in an interview framework.
+*Why:* These are the "how do you build an LLM product" topics — tool calling, agents,
+guardrails, cost control. You need both the hands-on instinct and the vocabulary to
+explain each component in an interview framework.
 
-| ID | Topic | Tier | Time | Genzeon Link |
-|----|-------|------|------|--------------|
-| E001 | Prompt Engineering Patterns — few-shot, CoT, system prompts, templates | 🟡 | 20 min | You write prompts in production — formalize the vocabulary |
-| E002 | Tool Calling & Function Calling — two-phase architecture, structured output | 🔴 | 35 min | You built two-phase tool-call in Hemut (non-stream → stream) |
-| E003 | Agent Architectures — ReAct, Plan-and-Execute, multi-agent, LangGraph | 🔴 | 40 min | You built AgentAudit: 4-agent LangGraph orchestration |
-| E004 | Guardrails & Safety — input/output filtering, prompt injection defense | 🔴 | 35 min | You built anti-hallucination grounding in Hemut |
-| E005 | Cost Optimization — caching, prompt compression, model routing, batching | 🔴 | 35 min | You built dual-axis caching (per-channel + per-user) in Hemut |
-| E006 | Observability for LLMs — tracing, latency profiling, quality monitoring | 🟡 | 25 min | How do you know your RAG is degrading in production? |
+| ID | Topic | Tier | Time |
+|----|-------|------|------|
+| E001 | Prompt Engineering Patterns — few-shot, CoT, system prompts, templates | 🟡 | 20 min |
+| E002 | Tool Calling & Function Calling — two-phase architecture, structured output | 🔴 | 35 min |
+| E003 | Agent Architectures — ReAct, Plan-and-Execute, multi-agent, LangGraph | 🔴 | 40 min |
+| E004 | Guardrails & Safety — input/output filtering, prompt injection defense | 🔴 | 35 min |
+| E005 | Cost Optimization — caching, prompt compression, model routing, batching | 🔴 | 35 min |
+| E006 | Observability for LLMs — tracing, latency profiling, quality monitoring | 🟡 | 25 min |
 
 **Module E Learning Outcome:** You can design the application layer of an LLM system from
 scratch — agents, tool-calling, guardrails, cost controls — and explain each component's
-tradeoffs. You can map your Hemut and AgentAudit work to standard architectural patterns.
+tradeoffs against standard architectural patterns.
 
 ---
 
@@ -204,15 +203,15 @@ Deep Dive → Wrap-up) to AI-specific problems. Do these last; prerequisites are
 | ID | Topic | Tier | Time | What interviewers probe |
 |----|-------|------|------|------------------------|
 | F001 | Design a Document Q&A System (RAG at scale, 1M docs, 10K users) | 🔴 | 60 min | Every layer of RAG + scaling |
-| F002 | Design an LLM Inference Service (Mistral-7B to 10K RPS, SLA 200ms) | 🔴 | 60 min | Serving, batching, GPU math |
-| F003 | Design a Multi-Agent Code Review System (like AgentAudit) | 🔴 | 50 min | Agent coordination, cost, reliability |
+| F002 | Design an LLM Inference Service (7B-class LLM to 10K RPS, SLA 200ms) | 🔴 | 60 min | Serving, batching, GPU math |
+| F003 | Design a Multi-Agent Code Review System | 🔴 | 50 min | Agent coordination, cost, reliability |
 | F004 | Design a Recommendation System with ML (Swiggy-style) | 🔴 | 50 min | Retrieval + ranking + online learning |
 | F005 | Design a Content Moderation System (LLM + rule engine hybrid) | 🟡 | 40 min | Latency, accuracy, human-in-the-loop |
 | F006 | Design a RAG Pipeline with Evaluation Feedback Loop | 🔴 | 50 min | Eval, monitoring, online improvement |
 
 **Module F Learning Outcome:** You can run a 45-minute AI system design interview,
 hit all 6 scoring dimensions, and produce a defensible HLD with concrete tradeoff
-justifications — using your Genzeon work as credible prior art.
+justifications backed by real numbers.
 
 ---
 
@@ -269,8 +268,9 @@ with "here's how I'd evaluate this in production."
 | Strong | Can drop into any component — explains PagedAttention, cross-encoder scoring, LoRA rank math, or BM25 TF-IDF — one level below the diagram |
 | Signal questions | "Take me deeper on the retrieval step." "How does vLLM handle multiple concurrent requests?" |
 
-**Akash's advantage:** His Genzeon work is the deep dive. He can say "I implemented this" —
-but he needs to be able to explain *why* it works, not just that it works.
+**Akash's advantage:** Hands-on implementation experience is the deep dive. Being able to
+say "I've implemented this" is a strong signal — but the payoff comes from explaining
+*why* it works, not just that it works.
 
 ---
 
@@ -280,7 +280,7 @@ but he needs to be able to explain *why* it works, not just that it works.
 | Level | What it looks like |
 |-------|-------------------|
 | Weak | "There's a latency vs quality tradeoff" (obvious, useless) |
-| Strong | "A cross-encoder reranker adds ~80ms on a 7B model; a bi-encoder is <5ms. For a clinical use case with 200ms SLA, the cross-encoder is at the edge — I'd add a cache for repeated queries and parallelize the top-k fetch." |
+| Strong | "A cross-encoder reranker adds ~80ms on a 7B model; a bi-encoder is <5ms. For a latency-sensitive use case with 200ms SLA, the cross-encoder is at the edge — I'd add a cache for repeated queries and parallelize the top-k fetch." |
 | Signal questions | "What does that cost to run?" "What's the latency impact?" "At what scale does this break?" |
 
 **The benchmark reference card (§5) is your cheat sheet for this dimension.**
@@ -313,7 +313,7 @@ to AI/ML content. Steps marked ★ are AI/ML-specific additions.
 | 7 | **When to use it** — specific conditions that make this the right choice |
 | 8 | **When NOT to use it** — explicit failure modes and wrong-fit scenarios |
 | 9 | **Comparison to alternatives** — side-by-side decision matrix |
-| 10 | **Genzeon connection** — how this maps to Akash's actual work |
+| 10 | **Practical connection** — how this maps to a real production system |
 | 11 ★ | **Evaluation angle** — how would you measure if this component is working? |
 | 12 | **Interview framing** — exact words to say when this topic comes up in a design |
 | 13 | **Common mistakes** — what candidates get wrong; what interviewers catch |

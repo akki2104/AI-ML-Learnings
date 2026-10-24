@@ -33,6 +33,34 @@
 
 ---
 
+## Attention Mechanism Variants
+
+**Use full (bidirectional) attention when:**
+- Building an encoder-only model (BERT-style) for embeddings, classification, or reranking
+- The whole input is available at once — no autoregressive generation needed
+- Example: cross-encoder rerankers (B006) run full joint attention over query+candidate pairs
+
+**Use causal (masked) attention when:**
+- Building/using a decoder-only generative model (Mistral, Llama, GPT) — required for
+  autoregressive, left-to-right generation so the model never "sees" future tokens
+
+**Use sliding-window attention when:**
+- You need long-context efficiency and most relevant dependencies are local
+- Mistral-7B does this: 4096-token window, keeps compute/memory manageable at longer context
+- Trade-off: very long-range dependencies (further back than the window) rely on information
+  propagating across layers rather than direct attention — slightly less reliable
+
+**Use grouped-query attention (GQA) / multi-query attention (MQA) when:**
+- Serving at scale and KV-cache memory is the bottleneck (many concurrent requests, long context)
+- GQA (Mistral: 32 query heads → 8 KV groups) cuts KV-cache size ~4x vs. full MHA with minimal
+  quality loss; MQA (1 KV head shared by all query heads) cuts it further but with more quality risk
+
+**Do NOT default to full multi-head attention (MHA) when:**
+- Serving many concurrent users at long context — KV-cache memory will dominate and limit
+  throughput; use GQA/MQA-based models or PagedAttention-style serving (see C001/C003)
+
+---
+
 ## Vector Database
 
 **Use pgvector when:**

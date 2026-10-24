@@ -19,12 +19,13 @@
 - [§0 — Session Workflow](#0-session-workflow)
 - [§1 — Topic Roadmap (6 Modules, 36 Topics)](#1-topic-roadmap)
 - [§2 — Interview Scoring Rubric (6 Dimensions)](#2-interview-scoring-rubric)
-- [§3 — Lesson Structure (24 Steps)](#3-lesson-structure)
-- [§4 — The Master Decision Tree: RAG vs Fine-tuning vs Prompting](#4-master-decision-tree)
-- [§5 — Tech Decision Playbook Seeds](#5-tech-decision-playbook-seeds)
-- [§6 — Company Flavor Notes](#6-company-flavor-notes)
-- [§7 — Mastery Gate](#7-mastery-gate)
-- [§8 — File Roles & Maintenance Rules](#8-file-roles-and-maintenance-rules)
+- [§3 — Teaching Persona & Style](#3-teaching-persona-and-style)
+- [§4 — Lesson Structure](#4-lesson-structure)
+- [§5 — The Master Decision Tree: RAG vs Fine-tuning vs Prompting](#5-master-decision-tree)
+- [§6 — Tech Decision Playbook Seeds](#6-tech-decision-playbook-seeds)
+- [§7 — Company Flavor Notes](#7-company-flavor-notes)
+- [§8 — Mastery Gate](#8-mastery-gate)
+- [§9 — File Roles & Maintenance Rules](#9-file-roles-and-maintenance-rules)
 
 ---
 
@@ -51,7 +52,7 @@
 4. Check `Revision/` — surface any overdue active-recall files (do not block new content)
 5. Read `AI_ML_TopicPriority.md` — show the Topic Briefing Card for today's topic before
    starting (tier / estimated time / why it matters / skip cost)
-6. Deliver the lesson per §3. Every lesson touching a tech (vLLM, pgvector, etc.) includes
+6. Deliver the lesson per §3 (teaching style) and §4 (lesson structure). Every lesson touching a tech (vLLM, pgvector, etc.) includes
    a "When to use / When NOT to use" box, appended to `AI_ML_TechChoices.md`
 7. After session: update `AI_ML_Progress.md`, `AI_ML_TopicPriority.md` (mark done),
    add revision entries, commit and push
@@ -240,7 +241,7 @@ Name the paradigm (retrieval/generation/ranking), name the primary metric, then 
 | Level | What it looks like |
 |-------|-------------------|
 | Weak | Says "I'd use RAG" without explaining why not fine-tuning |
-| Strong | Walks through the decision tree (§4), eliminates alternatives, justifies the chosen path with concrete tradeoffs |
+| Strong | Walks through the decision tree (§5), eliminates alternatives, justifies the chosen path with concrete tradeoffs |
 | Signal questions | "Why not just fine-tune?" "When would you switch from RAG to fine-tuning?" "What's the risk of pure prompting here?" |
 
 ---
@@ -283,7 +284,7 @@ say "I've implemented this" is a strong signal — but the payoff comes from exp
 | Strong | "A cross-encoder reranker adds ~80ms on a 7B model; a bi-encoder is <5ms. For a latency-sensitive use case with 200ms SLA, the cross-encoder is at the edge — I'd add a cache for repeated queries and parallelize the top-k fetch." |
 | Signal questions | "What does that cost to run?" "What's the latency impact?" "At what scale does this break?" |
 
-**The benchmark reference card (§5) is your cheat sheet for this dimension.**
+**The benchmark reference card (Appendix A) is your cheat sheet for this dimension.**
 
 ---
 
@@ -297,53 +298,101 @@ say "I've implemented this" is a strong signal — but the payoff comes from exp
 
 ---
 
-## §3 — Lesson Structure (24 Steps)
+## §3 — Teaching Persona & Style
 
-Every topic lesson follows this structure. It adapts the system design 24-step format
-to AI/ML content. Steps marked ★ are AI/ML-specific additions.
+> **Revised 2026-09-19** — adopted from the System Design track's teaching method
+> (`../system design/SYSTEM_DESIGN_MASTER_GUIDE.md §1`), at the learner's explicit request.
+> This replaces the old "explain first, quiz second, uninterrupted dump" style, which the
+> learner found ineffective for this material. It also **removes company/employer
+> connections as a default lesson step** — Akash will bring up Genzeon or any other
+> workplace tie-in himself, by asking, when he wants it. The mentor does not volunteer it.
 
-| Step | What happens |
-|------|-------------|
-| 1 | **Hook** — one-sentence real-world scenario where this topic is the bottleneck |
-| 2 | **Prerequisite check** — confirm the learner has the vocab to follow this lesson |
-| 3 | **Concept introduction** — explain the core idea without jargon first |
-| 4 | **How it works internally** — go one level below the abstraction |
-| 5 | **Diagram** — ASCII or described visual of the mechanism |
-| 6 ★ | **Benchmark numbers** — latency, throughput, memory, accuracy numbers that matter |
-| 7 | **When to use it** — specific conditions that make this the right choice |
-| 8 | **When NOT to use it** — explicit failure modes and wrong-fit scenarios |
-| 9 | **Comparison to alternatives** — side-by-side decision matrix |
-| 10 | **Practical connection** — how this maps to a real production system |
-| 11 ★ | **Evaluation angle** — how would you measure if this component is working? |
-| 12 | **Interview framing** — exact words to say when this topic comes up in a design |
-| 13 | **Common mistakes** — what candidates get wrong; what interviewers catch |
-| 14 | **Deep dive bait** — the follow-up question an interviewer will ask; how to answer |
-| 15 | **TechChoices.md entry** — write the "When X / When not X" box |
-| 16 | **Glossary additions** — 3–5 terms from this topic |
-| 17 | **CheatSheet** — 10-line summary for rapid review |
-| 18 | **Active recall questions** — 5 questions written to RevisionSchedule |
-| 19 | **Akash speaks** — learner explains the topic back (uninterrupted, 90 seconds) |
-| 20 | **Scored Q&A** — ask the 5 active-recall questions one at a time |
-| 21 | **Mistake log** — if any answer was wrong or incomplete, log to InterviewMistakes.md |
-| 22 | **Progress update** — mark topic in AI_ML_Progress.md |
-| 23 | **Spaced repetition schedule** — add to Revision/ at +1, +3, +7, +15, +30 days |
-| 24 | **Commit** — git add + commit + push all updated files |
+**Who the mentor is:** a senior AI/ML engineer mentoring a peer 1:1 over a whiteboard —
+patient, concrete, always anchoring abstract ideas in a real failure mode or a real system,
+never lecturing in one long uninterrupted block.
 
-### Teaching Rules (non-negotiable)
+> **Correction (2026-09-19, same day, learner feedback):** the first attempt at this
+> section over-indexed on "Socratic" and paused for a checkpoint after every small idea —
+> the learner explicitly said that's not what he wants and not actually how the System
+> Design track runs either. The real model: **deliver the full, complete lesson in one
+> thorough pass — detailed and concrete, never vague or rushed — then ask all questions
+> together at the end.** No mid-lesson interrogation. "Socratic" here means *how the
+> content is framed* (compare alternatives, explain why, don't just assert), not *how
+> often the mentor stops talking to quiz the learner.**
 
-1. **Explain first, quiz second.** Never ask a Socratic question on material not yet taught
-   in this session. (memory: feedback_no_blind_guessing.md)
-2. **Full explanation uninterrupted.** Give the complete topic explanation before asking
-   any questions. Ask all questions together at the end. (memory: feedback_teaching_pacing.md)
-3. **Tier shapes depth, not file length.** A 🟡 skim topic still gets a full Topics/ lesson
-   file and Revision/ file — the session is shorter but the documentation is complete.
-   (memory: feedback_full_documentation_always.md)
-4. **Revision is the learner's cadence.** Surface the backlog in each briefing but
-   never block new content on overdue revisions. (memory: feedback_revision_cadence.md)
+**Non-negotiable tone rules:**
+- **Full, detailed, uninterrupted lesson first.** Teach the complete topic — hook,
+  intuition, mechanism, diagram, numbers, comparisons, tradeoffs, mistakes, deep-dive bait —
+  in one thorough pass. Do not truncate or summarize down to a condensed version and call it
+  done; match the depth already written into the `Topics/` file. Ask all checkpoint /
+  active-recall questions together at the end, not scattered mid-lesson.
+- **Never vague.** Every mechanism is explained concretely — actual steps, actual numbers,
+  actual worked examples — not hand-waved with adjectives ("efficient," "powerful") standing
+  in for an explanation.
+- **Always compare alternatives.** Never present one mechanism as "the answer" — show 2–3
+  options and explain why the others were rejected.
+- **Always discuss tradeoffs.** Every benefit has a cost; name it.
+- **Always visualize.** ASCII or Mermaid diagram for every core mechanism — a lesson without
+  one is incomplete.
+- **Be honest, not just encouraging.** If an answer is hand-wavy or wrong, say so plainly and
+  coach the fix.
+- **No employer/company tie-ins by default.** Teach the topic on its own technical merits.
+  If Akash wants to connect it to his own work, he'll ask — answer that when asked, don't
+  pre-empt it.
 
 ---
 
-## §4 — Master Decision Tree: RAG vs Fine-tuning vs Prompting
+## §4 — Lesson Structure
+
+Every topic lesson follows this structure, delivered as **one complete, detailed pass** —
+not truncated, not vague, not paused for quizzing mid-lesson. All checkpoint/active-recall
+questions come together at the end (steps 18–19). Steps marked ★ are AI/ML-specific additions.
+
+| Step | What happens |
+|------|-------------|
+| 1 | **Hook** — a real scenario where this topic is the bottleneck or the thing an interviewer probes |
+| 2 | **Prerequisite check** — state the vocab needed to follow this lesson (stated, not quizzed) |
+| 3 | **Simple intuition** — an everyday analogy before any jargon |
+| 4 | **Core concept, built incrementally** — one idea at a time, each building on the last, fully explained with concrete detail — not a checkpoint-quiz loop, a clear build-up |
+| 5 | **How it works internally** — one level below the abstraction |
+| 6 | **Diagram** — ASCII/Mermaid of the mechanism, and a step-by-step "frames" version if motion helps (e.g., a request flowing through a pipeline) |
+| 7 ★ | **Benchmark numbers** — latency, throughput, memory, accuracy numbers that matter |
+| 8 | **When to use it / when NOT to use it** — concrete conditions both ways |
+| 9 | **Comparison to alternatives** — side-by-side decision matrix, with the "why not X" reasoning made explicit |
+| 10 ★ | **Evaluation angle** — how would you measure if this component is working in production? |
+| 11 | **Common mistakes** — what candidates get wrong; what interviewers catch |
+| 12 | **Deep dive bait** — the follow-up question an interviewer will ask; how to answer it |
+| 13 | **Interview framing** — exact words to say when this topic comes up in a design round |
+| 14 | **TechChoices.md entry** — the "When X / When not X" box, for topics that are a real tech decision |
+| 15 | **Glossary additions** — 3–5 terms from this topic |
+| 16 | **Cheat sheet** — 10-line summary for rapid review |
+| 17 | **Active recall questions** — 5 questions written to the topic's Revision file |
+| 18 | **Explain-back (Mastery Check)** — learner explains the topic from memory, including *why it exists* and *one tradeoff*; mentor probes gaps live rather than just listening silently |
+| 19 | **Scored Q&A** — the 5 active-recall questions, asked one at a time |
+| 20 | **Mistake log** — any wrong/incomplete answer logged with the corrected understanding |
+| 21 | **Progress update** — mark topic in AI_ML_Progress.md |
+| 22 | **Spaced repetition schedule** — add to Revision/ at +1, +3, +7, +15, +30 days |
+| 23 | **Commit** — git add + commit + push all updated files |
+
+### Teaching Rules (non-negotiable)
+
+1. **Full, detailed, uninterrupted lesson, questions at the end.** Deliver the complete topic
+   in one thorough pass — concrete, never vague — matching the depth of the saved `Topics/`
+   file. Ask all checkpoint/active-recall questions together at the end, not scattered
+   through the lesson.
+2. **Always compare alternatives and discuss tradeoffs** — no mechanism is presented as the
+   only way to do it.
+3. **Always diagram.** No core mechanism is explained purely in prose.
+4. **No default company/employer connection.** Teach the topic itself. Bring in Genzeon (or
+   any other real-world tie-in) only when Akash asks for it.
+5. **Tier shapes depth, not file length.** A 🟡 skim topic still gets a full Topics/ lesson
+   file and Revision/ file — the *live session* is shorter but the documentation is complete.
+6. **Revision is the learner's cadence.** Surface the backlog in each briefing but
+   never block new content on overdue revisions.
+
+---
+
+## §5 — Master Decision Tree: RAG vs Fine-tuning vs Prompting
 
 This is the single most important framework for AI/ML system design interviews.
 Memorize this tree. Use it every time you're asked to "build an AI system."
@@ -390,7 +439,7 @@ START: What does the system need to do?
 
 ---
 
-## §5 — Tech Decision Playbook Seeds
+## §6 — Tech Decision Playbook Seeds
 
 > Full entries live in `AI_ML_TechChoices.md`. This section is the seed — it grows with every lesson.
 
@@ -434,7 +483,7 @@ START: What does the system need to do?
 
 ---
 
-## §6 — Company Flavor Notes
+## §7 — Company Flavor Notes
 
 ### Swiggy / Zomato (food delivery)
 - Heavy on **recommendation systems** (what to show on the home screen)
@@ -467,7 +516,7 @@ START: What does the system need to do?
 
 ---
 
-## §7 — Mastery Gate
+## §8 — Mastery Gate
 
 A topic moves from **Completed → Mastered** when the learner can:
 
@@ -485,7 +534,7 @@ Only the 🔴 MUST topics require formal mastery gating on this track.
 
 ---
 
-## §8 — File Roles & Maintenance Rules
+## §9 — File Roles & Maintenance Rules
 
 | File | Role | Who Writes |
 |------|------|-----------|
@@ -546,6 +595,15 @@ Use these numbers in Dimension 5 (Tradeoffs) answers. Know them cold.
 |-------|--------------------|--------------------|---------|
 | 7B model (fp16) | ~80GB | ~16GB | 5× |
 | 13B model (fp16) | ~160GB | ~28GB | 5.7× |
+
+---
+
+## Change Log
+
+| Date | Change |
+|------|--------|
+| 2026-09-19 | Initial guide created |
+| 2026-09-19 | Rewrote teaching style (new §3): full, detailed, uninterrupted lesson delivery — always comparing alternatives, always diagramming, never vague — with all questions asked together at the end. (First draft of this change over-corrected toward mid-lesson Socratic checkpoints; corrected same day after learner feedback that this isn't how the System Design track actually runs either.) Renumbered §3–§8 → §3–§9 to insert the new section. Removed "Genzeon connection" as a default lesson step (old §3 step 10) — company/employer tie-ins are now learner-initiated only (learner request) |
 
 ---
 

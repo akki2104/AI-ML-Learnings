@@ -19,7 +19,9 @@ Gap: interview framing — architectural decisions, tradeoffs, evaluation, "desi
 2. Read `AI_ML_Progress.md` — find current position and next topic.
 3. Read `AI_ML_Schedule.md` — find today's phase and session target.
 4. Read `AI_ML_TopicPriority.md` — show the Topic Briefing Card for today's topic.
-5. Deliver the lesson per the 24-step structure in `AI_ML_MASTER_GUIDE.md §3`.
+5. Deliver the lesson per the teaching style (`AI_ML_MASTER_GUIDE.md §3`) and the
+   lesson structure (`AI_ML_MASTER_GUIDE.md §4`) — one full, detailed, uninterrupted pass,
+   questions asked together at the end.
 6. Update all tracking files after the session.
 7. Commit and push.
 
@@ -61,10 +63,15 @@ git push origin main
 
 ## Teaching Rules
 
-1. Explain first, quiz second — never Socratic-quiz on unintroduced material.
-2. Full explanation uninterrupted — ask all questions together at the end.
-3. Tier shapes session depth, not file length — always write full lesson files.
-4. Revision is the learner's cadence — surface backlog but don't block new content.
+1. Full, detailed, uninterrupted lesson — deliver the complete topic in one thorough pass,
+   concrete and never vague, matching the saved lesson file's depth. Ask all checkpoint /
+   active-recall questions together at the end, not scattered mid-lesson.
+2. Always compare alternatives and discuss tradeoffs — no mechanism is "the only way."
+3. Always diagram the core mechanism (ASCII/Mermaid).
+4. No default company/employer tie-in (e.g., Genzeon) — teach the topic on its own merits.
+   Akash brings up his own work himself, by asking, when he wants that angle.
+5. Tier shapes session depth, not file length — always write full lesson files.
+6. Revision is the learner's cadence — surface backlog but don't block new content.
 
 ## Track Integration
 
@@ -72,9 +79,9 @@ This track is independent of `../system design/` but shares the learner's time.
 AI/ML case studies (Module F) use the same 7-step interview framework from the
 system design track — leverage Akash's existing knowledge there.
 
-## Curriculum Position (as of 2026-09-19)
+## Curriculum Position (as of 2026-10-24)
 
-- Topics completed: 0 / 36
-- Current module: Not started
-- Next topic: A001 Transformer Architecture & Attention
+- Topics completed: 1 / 36 (A001)
+- Current module: A — LLM Foundations
+- Next topic: A002 Embeddings & Semantic Similarity
 - Target: Late October 2026

@@ -1,280 +1,300 @@
 # A002 — Embeddings & Semantic Similarity
 
 **Tier:** 🔴 MUST | **Est. time:** 35 min
-**Date taught:** 2026-10-31
+**Date taught:** 2026-10-31 (rewritten same day as a beginner-friendly "story" version at the
+learner's request: every jargon term is defined where it first appears, with *why it exists*)
+
+> **How to read this:** it is one story with 9 chapters. Each chapter exists because the
+> previous one left a problem. Every new term is written in **bold** with a plain meaning and
+> a "why do we need it".
 
 ---
 
-## 1. Hook
+## The story in one line
 
-Interviewer: *"A user searches 'how do I get my money back' and your docs only say 'refund
-policy'. Keyword search returns nothing. How does your system still find it?"* The answer is
-embeddings: a model that maps text to a point in space so that *meaning*, not spelling,
-determines closeness. Every RAG design question ("how do you retrieve?") sits on top of this.
-If you can't say what an embedding is, how similarity is computed, and why cosine vs dot
-product vs L2 doesn't matter much once vectors are normalized, the rest of RAG is shaky.
+A support chatbot can't find answers because customers don't use the same words as the
+documents. The fix: turn text into numbers that capture *meaning*, so "nearby numbers" means
+"similar meaning". Everything in this topic is how to do that, measure "nearby", do it fast,
+and know where it breaks.
 
-## 2. Prerequisite check
+---
 
-From A001: tokens become vectors; attention mixes information across tokens; a transformer
-outputs one vector per token. You also need: dot product, vector length (norm), and the idea
-that a vector is a list of N numbers = a point/arrow in N-dimensional space.
+## Chapter 1 — The problem: keyword search is literal
 
-## 3. Simple intuition
+An online store has a help page titled **"Refund policy"**. A customer types:
+**"how do I get my money back"**.
 
-Think of a map of a city where **similar things are placed near each other**: all pizza
-places in one neighbourhood, all hospitals in another. Now the "map" has 768 dimensions
-instead of 2, and instead of shops it places sentences. "Refund policy" and "get my money
-back" land in the same neighbourhood even though they share no words. Searching = drop a pin
-for the query, look at what's nearest.
+Keyword search (matching the exact words) finds nothing, because the two texts share zero
+words. Humans know they mean the same thing; the computer doesn't.
 
-## 4. Core concept, built incrementally
+- **Keyword search / BM25:** an old, reliable method that scores documents by how many of the
+  query's exact words they contain (rare words count more). *Why it exists:* it is fast and
+  needs no AI. *Its limit:* it can't see that "money back" ≈ "refund".
 
-**4.1 What an embedding is.** A fixed-length vector (e.g. 768 floats) produced by an
-*embedding model* from a variable-length piece of text. Same length for "hi" and for a
-paragraph. The numbers are individually meaningless; only *relative positions* matter.
+We need a way for a computer to compare **meaning**. Computers only compare numbers, so:
+**turn each text into numbers in such a way that similar meanings give similar numbers.**
 
-**4.2 Where it comes from.** An embedding model is a transformer **encoder** (BERT-style,
-bidirectional attention — every token sees every other, no causal mask, since we're
-understanding, not generating). It outputs one vector per token; we **pool** them into one
-vector: mean-pooling (average of token vectors; most common, e.g. bge/e5/MiniLM) or the
-[CLS] token (some BERT-derived models). Newer LLM-based embedders (e.g. e5-mistral) use a
-decoder with last-token pooling, trading cost for quality.
+## Chapter 2 — The core idea: text as a point on a map
 
-**4.3 How it learns "meaning": contrastive training.** Raw BERT embeddings are poor for
-similarity (anisotropic — everything points in a similar direction). Embedding models are
-fine-tuned on (query, relevant passage) pairs with a contrastive loss (InfoNCE):
+- **Vector:** just a list of numbers, e.g. `[0.2, -0.7, 0.5]`. You can think of it as a point
+  on a map (2 numbers = a point on paper, 3 numbers = a point in a room).
+- **Dimension:** how many numbers are in the list. A 768-dimension vector has 768 numbers —
+  a point in a 768-D "room". We can't picture it, but the maths works exactly like 2-D.
+- **Embedding:** the vector you get for a piece of text. Same length (e.g. 768 numbers)
+  whether the text is "hi" or a paragraph. *Why a fixed length?* So any two texts can be
+  compared with the same maths.
 
-- Pull the query vector toward its positive passage.
-- Push it away from **negatives**: other passages in the same batch (in-batch negatives) and
-  mined **hard negatives** (look relevant but aren't).
-- Larger batches = more negatives = better embeddings (why training uses huge batches).
+Analogy: a city map where similar places are placed near each other — all pizza shops in one
+area, all hospitals in another. An embedding places *sentences* on such a map. "Refund
+policy" and "get my money back" land in the same neighbourhood; "reset password" lands far
+away. **Search = place the query on the map and look at what's nearest.**
 
-So "similar" means "what the training pairs said belongs together" — which is why a model
-trained on web Q&A can be mediocre on legal or code text. Similarity is *learned and
-domain-dependent*, not a law of nature.
+The individual numbers mean nothing by themselves (no number means "is about money"). Only
+the *distances between points* carry information.
 
-**4.4 Similarity metrics.** Given vectors a and b:
+## Chapter 3 — Who draws the map? The embedding model
 
-| Metric | Formula | Looks at | Notes |
+An **embedding model** is a small neural network that converts text → vector. It is built
+from pieces you met in A001:
+
+1. **Tokenizer** — chops text into **tokens** (word pieces like "refund", "##s"), each mapped
+   to an ID number. *Why:* neural networks need numbers, and a fixed vocabulary of pieces
+   handles any word.
+2. **Transformer encoder** — a stack of transformer layers (A001) that turns every token into
+   a vector that has *absorbed context from the other tokens* using **attention** (the
+   mechanism letting each token look at the others and weigh how relevant each is).
+   - **Encoder vs decoder:** a *decoder* (like ChatGPT) generates text one token at a time and
+     uses a **causal mask** (a rule: "you may not look at tokens to your right/future",
+     otherwise it would cheat while predicting the next word). An *encoder* doesn't generate,
+     it only understands, so it removes that rule.
+   - **Bidirectional:** because there's no mask, each token sees words on both its left and
+     right. *Why it helps:* "bank" in "river bank" vs "bank account" is decided by words on
+     either side.
+3. **Pooling** — after step 2 you have one vector *per token*, but you want *one vector per
+   text*. Pooling merges them. **Mean pooling** = average all token vectors (most common).
+   **[CLS] pooling** = use the vector of a special summary token added at the start.
+   *Why:* a single fixed-size vector per text is what makes comparison and storage simple.
+4. **Normalize** — rescale the vector so its length is exactly 1 (see Chapter 4 for why).
+
+```
+"get my money back" → tokenizer → tokens → transformer ENCODER (sees both sides)
+                   → one vector per token → POOLING → one vector → normalize → embedding
+```
+
+## Chapter 4 — How does the model learn what's "similar"? Contrastive training
+
+Out of the box, a transformer's vectors are *not* good for similarity. It has to be trained.
+
+- **Training pairs:** examples like (question, passage that answers it) collected from the web,
+  support logs, etc.
+- **Contrastive learning:** a training method that teaches by contrast: *pull matching pairs
+  closer together, push non-matching pairs apart.* Like teaching someone to recognise a dog by
+  showing "this is a dog" and "this is not".
+  - **Positive:** the passage that truly answers the question.
+  - **Negative:** a passage that doesn't. The model learns to place the question *away* from it.
+  - **Batch / in-batch negatives:** training processes many pairs at once (a **batch**). For
+    each question, the *other* questions' passages in that batch are free negatives. Bigger
+    batch = more negatives = a sharper map. That's why embedding models train with huge
+    batches.
+  - **Hard negative:** a negative that *looks* relevant but isn't (e.g. a page about
+    "refund policy for hotels" for a store-refund question). Training on these teaches fine
+    distinctions.
+  - **Loss (InfoNCE):** a single score of "how wrong is the model right now" that training
+    tries to reduce. InfoNCE is the specific loss used here: it rewards a high similarity for
+    the positive relative to all the negatives.
+
+**Why this matters to you:** "similar" is *whatever the training pairs said*. A model trained
+on web Q&A can be mediocre on legal text or source code. That is **domain dependence** (a
+**domain** = the kind of text: legal, medical, code, e-commerce…).
+
+## Chapter 5 — How do we measure "close"? Three rulers
+
+We have two embeddings, `a` and `b`. How close are they?
+
+Tiny 2-D example: `a = (3, 4)`, `b = (6, 8)` (same direction, b is twice as long),
+`c = (4, −3)` (at a right angle to a).
+
+| Measure | Plain meaning | a vs b | a vs c |
 |---|---|---|---|
-| **Dot product** | Σ aᵢbᵢ | angle **and** length | Fast; length acts as a "confidence/popularity" signal |
-| **Cosine** | a·b / (‖a‖‖b‖) | angle only | Range −1..1; default for text |
-| **L2 (Euclidean)** | √Σ(aᵢ−bᵢ)² | straight-line distance | Lower = closer |
+| **Dot product** `a·b = a₁b₁ + a₂b₂` | multiply matching numbers, add up. Big when vectors point the same way *and* are long | 3·6+4·8 = **50** | 3·4+4·(−3) = **0** |
+| **Cosine similarity** | the *angle* between the arrows; ignores length. 1 = same direction, 0 = unrelated, −1 = opposite | **1.0** | **0** |
+| **L2 (Euclidean) distance** | straight-line distance between the two points; smaller = closer | **5** | **√50 ≈ 7.07** |
 
-**Key identity:** if vectors are L2-normalized (‖a‖=‖b‖=1), then
-dot = cosine, and ‖a−b‖² = 2 − 2·cos(a,b). So all three produce the **same ranking**.
-Practical consequence: normalize at index time, then use the cheapest op (dot product /
-inner product) in the vector DB. The mistake is mixing a model that expects cosine with an
-index configured for L2 on un-normalized vectors.
+- **Cosine = dot product ÷ (length of a × length of b).** *Why cosine for text:* the length
+  of an embedding mostly reflects things like text length, not meaning, so we want to compare
+  direction only.
+- **Normalizing (L2-normalizing)** = divide a vector by its length so the length becomes 1.
+  `a = (3,4)` has length 5, so normalized `a = (0.6, 0.8)`.
+- **The shortcut that matters in interviews:** once *all* vectors have length 1:
+  - dot product = cosine (the length division does nothing, it's dividing by 1),
+  - and `distance² = 2 − 2 × cosine` (check: (1,0) vs (0,1): distance² = 2, cosine = 0 ✓),
+    so smaller distance ⇔ higher cosine.
+  
+  So all three rulers produce the **same ranking** (**ranking** = the ordered list of results).
+  *Practical use:* normalize once when you store each vector, then use the cheapest ruler
+  (dot product) forever. It is the fastest operation on hardware.
+- **Distance vs similarity:** similarity is "higher = closer"; distance is "lower = closer".
+  Cosine *distance* = 1 − cosine similarity. Don't mix them up.
 
-**4.5 Bi-encoder vs cross-encoder (ties to reranking, B006).**
+## Chapter 6 — Using it: build the map once, search it many times
 
-- **Bi-encoder** (embedding model): encode query and each doc **independently**. Doc vectors
-  are precomputed offline; query-time cost = 1 encode + a nearest-neighbour lookup. Scales
-  to millions of docs. Loses fine-grained query↔doc token interactions because everything is
-  squeezed into one vector.
-- **Cross-encoder**: feed "query [SEP] doc" together; full attention across both; outputs a
-  relevance score. More accurate, but must run per (query, doc) pair — can't precompute. So:
-  bi-encoder retrieves top-50/100, cross-encoder reranks.
+Two phases (**offline** = done ahead of time, not while a user waits; **online** = done live
+per user request):
 
-**4.6 Asymmetric search.** Queries are short questions, documents are long passages.
-Many models expect prefixes: e5 uses `"query: "` / `"passage: "`; bge uses an instruction
-for queries only. Forgetting the prefix silently degrades recall — a classic production bug.
+**Offline (indexing):**
+1. Split documents into **chunks** — pieces of a few hundred words. *Why:* models have a
+   **maximum input length** (often 512 tokens; extra text is **silently truncated**, i.e.
+   dropped with no error), and one vector for a whole 10-page doc would blur every topic into
+   one average. This is the entire reason chunking exists (topic B002).
+2. Embed each chunk, normalize, and store the vectors in a **vector database** — a database
+   built to answer "which stored vectors are nearest to this one?" quickly (B004).
 
-**4.7 Dimensionality and compression.**
+**Online (query):**
+1. Embed the user's query with the **same model**.
+2. Ask the vector database for the **top-k** nearest vectors (**top-k** = the k best matches,
+   e.g. k = 5).
+3. Optionally rerank (Chapter 7), then give those chunks to the LLM to write the answer.
 
-- 384 (MiniLM) → 768 (bge-base, e5-base) → 1024 (bge-large) → 1536/3072 (OpenAI
-  text-embedding-3-small/large).
-- Storage = N × d × 4 bytes (float32). 1M docs × 768 = ~3 GB; × 1536 = ~6 GB; × 3072 = ~12 GB.
-  Plus index overhead (HNSW adds roughly 1.5–2× for graph links).
-- **Matryoshka embeddings** (OpenAI v3, nomic, etc.): trained so the first k dims are a
-  usable embedding; truncate 3072 → 256 with modest quality loss.
-- **Quantization**: int8 = 4× smaller, binary = 32× smaller (Hamming distance), usually with
-  a rescore step using full vectors on the top candidates.
-
-## 5. How it works internally (one level down)
-
-```
-text ──► tokenizer ──► token ids ──► transformer ENCODER (bidirectional attn, ~12-24 layers)
-                                            │
-                              one vector per token  [t1][t2]...[tn]   (each 768-d)
-                                            │
-                                     POOLING (mean / CLS)
-                                            │
-                                      one 768-d vector
-                                            │
-                                  L2-normalize (length = 1)
-                                            │
-                                     stored in vector DB
-```
-
-Max input length matters: many encoders cap at **512 tokens** (bge-m3 / OpenAI v3 allow 8k).
-Text beyond the limit is **silently truncated** — this is the real reason chunking exists
-(B002), alongside the fact that a single vector for a 10-page doc blurs all topics together.
-
-## 6. Diagram
+Why not compare against every stored vector? With 10 million vectors, that's 10 million
+comparisons per query. Vector databases use an **ANN index** (**Approximate Nearest
+Neighbour**): a clever structure (like a shortcut road network) that finds *almost* the best
+matches while checking only a tiny fraction of vectors. *Tradeoff:* tiny accuracy loss for a
+huge speed gain. (Details in B004; today just know the term.)
 
 ```
-          INDEX TIME (offline, once)                    QUERY TIME (online, per request)
-
-  docs ─► chunk ─► embed model ─► [vec] ─┐         query ─► embed model ─► [qvec]
-                                         ▼                                    │
-                                 ┌──────────────┐        top-k nearest        │
-                                 │  vector DB   │ ◄───────────────────────────┘
-                                 │ (ANN index)  │ ───► k chunks ─► (rerank) ─► LLM
-                                 └──────────────┘
-
-   Embedding space (2-D cartoon):
-
-         "refund policy" •  • "get my money back"
-                              • "return an item"           (cluster: refunds)
-
-                                              • "reset password"
-                                              • "forgot login"   (cluster: auth)
-
-   cos("get my money back","refund policy") ≈ 0.75   cos("get my money back","reset password") ≈ 0.15
+OFFLINE:  docs → chunk → embed → normalize → [vector DB / ANN index]
+ONLINE:   query → embed (same model) → top-k nearest from DB → (rerank) → LLM → answer
 ```
 
-Frames of a query: (1) "get my money back" → encode → 768-d vector; (2) ANN index
-compares against millions of stored vectors (approximately — see B004); (3) returns the 5
-highest dot products; (4) those chunks go into the prompt.
+## Chapter 7 — Fast vs accurate: bi-encoder and cross-encoder
 
-## 7. ★ Benchmark numbers
+- **Bi-encoder** = what we've described: query and each chunk are encoded **separately**
+  into vectors ("bi" = two independent towers). *Pro:* chunk vectors are prepared in advance,
+  so searching millions is fast. *Con:* each text is squeezed into one vector *before* seeing
+  the other, so fine detail is lost.
+- **Cross-encoder** = feed **query + chunk together** into one transformer so every query
+  word can attend to every chunk word; it outputs one relevance score. *Pro:* much more
+  accurate. *Con:* nothing can be prepared in advance; scoring 10M chunks means 10M model
+  runs per query. Impossible live.
+- **Reranking** = a second stage: the fast bi-encoder picks the top ~50–100 candidates, then
+  the slow, accurate cross-encoder re-orders just those. You get speed *and* quality. (This is
+  topic B006.)
 
-| Item | Typical value |
+## Chapter 8 — Where embeddings break (and the fix for each)
+
+| Failure | Example | Fix |
+|---|---|---|
+| **Exact tokens** (IDs, codes) get blurred | search `ERR_4021` finds other errors | **Hybrid search**: run BM25 *and* embeddings, merge the two ranked lists (e.g. with **RRF**, Reciprocal Rank Fusion: score items by their rank in each list). B005 |
+| **Negation** | "refund allowed" ≈ "refund not allowed" | reranker / LLM check |
+| **Numbers & dates** | "orders above ₹5000 last month" | **metadata filters** (structured conditions like `amount > 5000`) or SQL |
+| **Domain mismatch** | legal jargon | pick/fine-tune a domain model |
+| **Silent truncation** | chunk tail never embedded | keep chunks under the model's limit |
+| **Missing prefix** | recall drops quietly | some models (e5, bge) expect text like `"query: ..."` / `"passage: ..."` because queries (short questions) and chunks (long statements) are different; follow the model card |
+
+## Chapter 9 — Practical housekeeping: size, change, and measurement
+
+**Size.** One embedding of 768 numbers stored as **float32** (a number stored in 4 bytes)
+= 768 × 4 = 3,072 bytes ≈ 3 KB. So **1M chunks ≈ 3 GB** (1536 dims ≈ 6 GB; 3072 dims ≈ 12 GB;
+1024 dims ≈ 4 GB). Formula: `N × dimensions × 4 bytes`.
+
+Ways to shrink:
+- **Quantization** = store each number with fewer bits. **int8** (1 byte) = 4× smaller;
+  **binary** (1 bit) = 32× smaller. *Cost:* some accuracy loss, usually repaired by a
+  **rescore** step (re-compare the top candidates using the full-size vectors).
+- **Matryoshka embeddings** = models trained (like Russian nesting dolls) so that the first
+  256 numbers already form a decent embedding, letting you **truncate** 3072 → 256 and lose
+  little quality.
+- Pick a smaller model (fewer dimensions).
+
+**Changing the model.** Vectors from model X and model Y live on *different maps*; distances
+between them are meaningless. If you switch, **re-embed every chunk** into a new, versioned
+index (**re-index**), test it, then switch traffic over (**blue/green** = run old and new
+side by side, then flip). Mixing models silently ruins search; this is also called
+**embedding drift** when it happens by accident.
+
+**Measuring quality.** You can't eyeball it. Make a **labelled set**: 100–300 real queries
+each paired with the chunk(s) that correctly answer them. Then compute:
+- **Recall@k** — in what % of queries is a correct chunk inside the top-k? The most important
+  one, because the LLM can only use what retrieval returned.
+- **MRR (Mean Reciprocal Rank)** — how near the top the first correct chunk is (rank 1 → 1,
+  rank 2 → ½, rank 5 → ⅕, averaged).
+- **nDCG@k** — like MRR but rewards putting *more* relevant chunks higher when relevance has
+  degrees.
+- **MTEB** — a public leaderboard comparing embedding models. Use it to shortlist, then
+  always test on *your own* data.
+
+Rough numbers: embedding a query ≈ 5–20 ms (small model, CPU) or 50–200 ms via an API;
+related-text cosine ≈ 0.7–0.9, unrelated ≈ 0–0.3, but these values **differ per model**, so
+never hard-code "0.8 means relevant" without calibrating on your labelled set.
+
+---
+
+## When to use / when not
+
+**Use embeddings when:** people phrase things differently from the documents, queries are
+natural language, you need multilingual search, or you want deduplication/clustering by meaning.
+**Don't rely on embeddings alone when:** exact identifiers matter, negation matters, numbers
+or dates matter, or the corpus is tiny (BM25 or just paste everything into the prompt).
+
+## Alternatives at a glance
+
+| Approach | Choose when |
 |---|---|
-| Embed one short query, small model on CPU | 5–20 ms |
-| Embed one query via API (OpenAI) | 50–200 ms incl. network |
-| Throughput, bge-base on one GPU (batch, 256 tok) | ~1–3k chunks/s |
-| Index 1M chunks (avg 256 tok), one GPU | ~10–20 min |
-| Storage, 1M × 768 float32 | ~3 GB (int8 ≈ 0.75 GB, binary ≈ 96 MB) |
-| Storage, 1M × 1536 float32 | ~6 GB |
-| Cosine for strongly related text pair | ~0.7–0.9 (model-dependent!) |
-| Cosine for unrelated text pair | ~0.0–0.3 (some models never go below ~0.5) |
-| OpenAI text-embedding-3-small price | ≈ $0.02 / 1M tokens |
+| BM25 (keyword) | IDs, jargon, a baseline |
+| Dense bi-encoder (embeddings) | default for natural-language search |
+| Hybrid (BM25 + embeddings) | production default |
+| SPLADE (learned sparse: AI-expanded keywords) | want semantic matching + keyword-style index |
+| ColBERT (many vectors per doc, token-level match) | quality-critical, can afford big index |
+| Cross-encoder | reranking top-k only |
 
-**Warning:** absolute cosine values are not comparable across models. A threshold of 0.8
-means different things for different models — calibrate on labelled data.
+## Common mistakes
+1. Mixing vectors from different models. 2. Forgetting to normalize or using a mismatched
+metric. 3. Skipping `query:`/`passage:` prefixes. 4. Ignoring the token limit. 5. Treating
+cosine 0.8 as universal. 6. Saying embeddings "understand" text (they reflect training
+data). 7. Mixing up distance and similarity.
 
-## 8. When to use embeddings / when NOT to
+## Deep dive bait
+- **Why cosine, or why dot product?** Normalized → identical ranking; cosine removes length
+  (not meaningful for text); dot product is the cheapest way to compute it.
+- **Model changed — now what?** Re-embed all into a versioned index, evaluate on labelled
+  set, blue/green cutover, delete old.
+- **Why can't one vector represent a long document?** Fixed-size bottleneck: topics average
+  into a vague blob, and the tail gets truncated → chunk, or use multi-vector (ColBERT).
 
-**Use semantic (embedding) search when:**
-- Users phrase things differently from the documents (synonyms, paraphrase, questions vs statements).
-- Natural-language queries over unstructured text; multilingual retrieval.
-- Recommendation / dedup / clustering by meaning.
+## Interview framing (exact words)
+> "For retrieval I'd use a bi-encoder embedding model — a transformer encoder trained
+> contrastively so queries and their relevant passages land close together. I embed chunks
+> offline, normalize them, and store them in an ANN index; at query time I embed the query
+> with the same model and take the top-k by inner product, which equals cosine on normalized
+> vectors. Because dense retrieval is weak on exact identifiers and negation, I'd pair it with
+> BM25 in a hybrid setup and rerank the top candidates with a cross-encoder. I'd choose the
+> model by recall@k on a labelled sample of our own queries, not just MTEB, and I'd version
+> the index so a model change is a re-embed-and-cutover."
 
-**Don't rely on embeddings alone when:**
-- Queries contain exact tokens that must match: IDs, error codes, SKUs, names, `ERR_4021`
-  (embeddings blur rare tokens; BM25 nails them) → hybrid search (B005).
-- Negation and fine distinctions matter ("refund allowed" vs "refund not allowed" embed very close).
-- Numbers/units/dates ("revenue above 5M in Q3") → use structured filters / SQL.
-- Corpus is tiny (a few hundred docs): BM25 or just stuff it in context.
+## TechChoices.md entry
+See `AI_ML_TechChoices.md` → **"Similarity Metric & Embedding Dimensionality"**.
 
-## 9. Comparison to alternatives
-
-| Approach | Strength | Weakness | Choose when |
-|---|---|---|---|
-| **BM25 / TF-IDF (sparse)** | Exact terms, no model, cheap, explainable | No synonyms/paraphrase | IDs, jargon, baseline |
-| **Dense bi-encoder embeddings** | Semantic match, fast with ANN | Rare-token/negation blindness, domain drift, needs reindex on model change | Default for NL search |
-| **Learned sparse (SPLADE)** | Semantic expansion + inverted index | Heavier to build | Want interpretability + semantics |
-| **Late interaction (ColBERT)** | Token-level matching, better accuracy | Many vectors per doc → big index | Quality-critical, can pay storage |
-| **Cross-encoder** | Best accuracy | O(candidates) per query, no precompute | Reranking top-k only |
-| **Hybrid (dense + BM25, RRF)** | Covers both failure modes | Two indexes, fusion tuning | Production default |
-
-Metric choice: normalized vectors → dot product (fastest, identical ranking to cosine & L2).
-Un-normalized and magnitude is meaningful (some recommenders) → dot. Model card says
-"cosine" → normalize and use inner product.
-
-## 10. ★ Evaluation angle
-
-You cannot judge embeddings by eyeballing. Build a **labelled retrieval set**: 100–300 real
-queries each mapped to the chunk(s) that answer them. Measure:
-- **Recall@k** (is the right chunk in top-k?) — the main retrieval metric, since the LLM and
-  reranker can only use what's retrieved.
-- **MRR** (how high is the first right chunk) and **nDCG@k** (graded relevance).
-- Slice by query type (keyword-ish vs paraphrased), and watch **embedding drift**: if you
-  swap models/versions or query-prefix handling, vectors from different models are *not
-  comparable* — you must re-embed the entire corpus (a re-index migration, usually blue/green).
-- Public benchmark: MTEB. Treat it as a shortlist, then test on your own data — leaderboard
-  winners often lose on domain text.
-
-## 11. Common mistakes
-
-1. Comparing vectors from **different models** (or after a model upgrade) — meaningless.
-2. Forgetting to normalize, or mismatching index metric with model's training metric.
-3. Skipping query/passage prefixes for models that require them.
-4. Ignoring the max token limit → silent truncation, chunks whose tails are never embedded.
-5. Believing "cosine 0.8 = relevant" universally; thresholds are model-specific.
-6. Claiming embeddings "understand" text — they capture training-distribution similarity,
-   fail on negation, rare tokens, and numbers.
-7. Using the LLM's own hidden states / a generative LLM as an embedder without a
-   contrastive-trained embedding head.
-8. Saying cosine distance and similarity interchangeably (distance = 1 − similarity).
-
-## 12. Deep dive bait
-
-**Q: "Why not just use dot product, or why cosine?"** Answer: with normalized vectors they're
-equivalent; cosine removes the effect of vector length, which for text mostly reflects length
-or token frequency, not meaning. Dot product is then used purely as an implementation of
-cosine because it's cheapest in hardware (single fused multiply-add) and supported by every ANN index.
-
-**Q: "Embedding model changed — what happens?"** All stored vectors become incomparable with
-new query vectors. Plan: version the index, embed corpus with the new model into a new
-index, A/B on the labelled set, flip traffic, delete old. Cost = corpus tokens × price + a
-dual-write period for new docs.
-
-**Q: "How big can an embedding be before it's not worth it?"** Quality gains flatten past
-~768–1024 dims on most tasks; storage and ANN latency grow linearly. Matryoshka truncation or
-int8/binary + rescore recovers most of the quality at a fraction of the memory.
-
-**Q: "Why can't one vector represent a long document?"** It's a fixed-size bottleneck
-(compression); multiple topics average into a vague centroid and the tail gets truncated →
-chunk, or use multi-vector (ColBERT).
-
-## 13. Interview framing (exact words)
-
-> "For retrieval I'd use a bi-encoder embedding model — a bidirectional transformer trained
-> contrastively so that queries and their relevant passages land close together. I embed
-> chunks offline, normalize them, and store them in an ANN index; at query time I embed the
-> query with the same model and take the top-k by inner product, which equals cosine on
-> normalized vectors. Because dense retrieval is weak on exact identifiers and negation, I'd
-> pair it with BM25 in a hybrid setup and rerank the top candidates with a cross-encoder. I'd
-> pick the model by measuring recall@k on a labelled sample of our own queries, not just MTEB,
-> and I'd version the index so a model change is a re-embed-and-cutover rather than an
-> in-place edit."
-
-## 14. TechChoices.md entry
-
-See `AI_ML_TechChoices.md` → **"Similarity Metric & Embedding Dimensionality"** (added this
-session). The existing "Embedding Model" section is extended in B003.
-
-## 15. Glossary additions
-
+## Glossary additions
 | Term | Definition |
 |---|---|
-| **Embedding** | Fixed-length vector from a model such that semantically similar inputs are close in space |
-| **Bi-encoder** | Encodes query and document independently into vectors; doc vectors precomputable; basis of dense retrieval |
-| **Cross-encoder** | Scores a (query, doc) pair jointly with full attention; accurate but not precomputable; used for reranking |
-| **Cosine similarity** | a·b/(‖a‖‖b‖); angle between vectors, ignoring length; range −1..1 |
-| **Contrastive loss / InfoNCE** | Training objective pulling positive pairs together and pushing negatives apart; in-batch and hard negatives |
-| **Matryoshka embeddings** | Embeddings trained so a prefix of the dimensions is itself a usable, smaller embedding |
-| **Pooling** | Collapsing per-token vectors into one vector (mean or CLS) |
+| **Embedding** | Fixed-length list of numbers from a model; closeness ≈ similar meaning |
+| **Vector / dimension** | A list of numbers / how many numbers are in it |
+| **Bi-encoder** | Encodes query and doc separately; precomputable; used for retrieval |
+| **Cross-encoder** | Reads query+doc together; accurate but slow; used for reranking |
+| **Cosine similarity** | Angle-based closeness (−1..1), ignores length |
+| **Contrastive loss (InfoNCE)** | Training that pulls matching pairs together, pushes mismatches apart |
+| **Matryoshka embeddings** | First k numbers form a usable smaller embedding |
+| **ANN** | Approximate Nearest Neighbour: fast, almost-exact vector search |
+| **Recall@k** | % of queries whose correct chunk appears in the top-k |
 
-## 16. Cheat sheet (10-line summary)
-
-1. Embedding = fixed-length vector from a model; closeness ≈ semantic similarity.
-2. Embedders are bidirectional **encoders** + pooling, trained **contrastively** with hard negatives.
-3. Similarity is learned and domain-dependent; cosine values aren't comparable across models.
-4. Normalize vectors → dot = cosine; L2 gives the same ranking (‖a−b‖² = 2−2cos).
-5. Bi-encoder = fast, precomputed, retrieval; cross-encoder = accurate, per-pair, reranking.
-6. Max input (often 512 tokens) truncates silently → chunking is mandatory.
-7. Use query/passage prefixes when the model requires them.
-8. Storage = N × d × 4 B (1M × 768 ≈ 3 GB); int8 4×, binary 32×, Matryoshka truncation.
-9. Weak on exact IDs, negation, numbers → hybrid with BM25 + structured filters.
-10. Changing the model = re-embed everything; evaluate with recall@k/MRR/nDCG on your own data.
-
----
-
-*Lesson file complete. See `Revision/Revision_AI_002.md` for active recall questions and
-spaced repetition schedule.*
+## Cheat sheet (10 lines)
+1. Embedding = text → fixed-length vector; nearby = similar meaning.
+2. Made by a bidirectional transformer encoder + pooling, trained contrastively.
+3. "Similar" is learned from training pairs, so it depends on the domain.
+4. Normalize vectors → dot = cosine → same ranking as L2.
+5. Bi-encoder = fast retrieval; cross-encoder = accurate reranking of top 50–100.
+6. Max input is often 512 tokens; extra is silently cut → chunk.
+7. Use model-required `query:`/`passage:` prefixes.
+8. Storage = N × dims × 4 bytes; shrink with int8/binary/Matryoshka.
+9. Weak on exact IDs, negation, numbers → hybrid + filters + reranker.
+10. Model change = re-embed all; measure with recall@k/MRR/nDCG on your own labelled set.

@@ -195,4 +195,26 @@
 
 ---
 
+## Similarity Metric & Embedding Dimensionality
+
+**Use dot product (inner product) on L2-normalized vectors when:**
+- Text retrieval with a model trained for cosine (almost all of them) — identical ranking to cosine and L2, cheapest to compute
+
+**Use cosine explicitly when:**
+- Vectors are not normalized and you can't normalize at index time (the DB handles it)
+
+**Use L2 when:**
+- The model/index was trained or tuned for Euclidean distance (some image/ANN benchmarks)
+
+**Use raw dot product (un-normalized) when:**
+- Vector length carries signal, e.g. recommender embeddings where magnitude ≈ popularity
+
+**Pick 384–768 dims when:** latency/memory matter, corpus > 10M, or domain is simple
+**Pick 1024–3072 dims (or Matryoshka-truncated) when:** quality-critical, corpus < ~5M, can afford ~6–12 GB per 1M chunks
+**Add int8/binary quantization + rescore when:** memory is the bottleneck and a small recall loss is acceptable
+
+**Do NOT rely on dense embeddings alone when:** exact identifiers, negation, or numeric constraints matter → hybrid BM25 + metadata filters
+
+---
+
 *(This file grows. Add a new entry after every lesson that covers a tech choice.)*

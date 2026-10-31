@@ -13,7 +13,7 @@
 | Total topics | 36 |
 | Completed | 1 |
 | Mastered (gate passed) | 0 |
-| In progress | 0 |
+| In progress | 1 (A002) |
 | Case studies done | 0 / 6 |
 | Interview readiness | 0% |
 
@@ -24,7 +24,7 @@
 | ID | Topic | Status | Date | Mastered |
 |----|-------|--------|------|---------|
 | A001 | Transformer Architecture & Attention | ✅ Completed (passed after retest) | 2026-10-24 | — |
-| A002 | Embeddings & Semantic Similarity | ⬜ Not started | — | — |
+| A002 | Embeddings & Semantic Similarity | 🟡 Taught — awaiting recall Q&A | 2026-10-31 | — |
 | A003 | Tokens, Context Windows & Inference Basics | ⬜ Not started | — | — |
 | A004 | LLM Providers & APIs | ⬜ Not started | — | — |
 
@@ -105,3 +105,4 @@
 |------|---------------|-------|
 | 2026-09-19 | — | Master guide created. Track initialized. |
 | 2026-10-24 | A001 | Teaching style revised (full detailed lesson, questions at end, no employer tie-in). First pass ~72%; errors on KV-cache growth (linear, not exponential) and GQA (shares across query heads, not tokens) logged in InterviewMistakes.md; retest passed. Next: A002 Embeddings & Semantic Similarity. |
+| 2026-10-31 | A002 (taught) | Lesson + revision file written; recall Q&A pending. Behind schedule (target was late Oct) — new target date to be agreed. A001 +7d revision due. |

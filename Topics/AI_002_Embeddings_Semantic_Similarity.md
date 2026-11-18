@@ -2,7 +2,7 @@
 
 **Module:** A — LLM Foundations
 **Tier:** 🔴 MUST
-**Status:** Taught 2026-10-31 (recall Q&A in progress)
+**Status:** Completed 2026-11-18 (passed after retest)
 **Difficulty:** Medium
 
 ---

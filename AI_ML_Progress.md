@@ -11,20 +11,20 @@
 | Metric | Count |
 |--------|-------|
 | Total topics | 36 |
-| Completed | 1 |
+| Completed | 2 |
 | Mastered (gate passed) | 0 |
-| In progress | 1 (A002) |
+| In progress | 0 |
 | Case studies done | 0 / 6 |
 | Interview readiness | 0% |
 
 ---
 
-## Module A — LLM Foundations (1 / 4)
+## Module A — LLM Foundations (2 / 4)
 
 | ID | Topic | Status | Date | Mastered |
 |----|-------|--------|------|---------|
 | A001 | Transformer Architecture & Attention | ✅ Completed (passed after retest) | 2026-10-24 | — |
-| A002 | Embeddings & Semantic Similarity | 🟡 Taught — awaiting recall Q&A | 2026-10-31 | — |
+| A002 | Embeddings & Semantic Similarity | ✅ Completed (passed after retest) | 2026-11-18 | — |
 | A003 | Tokens, Context Windows & Inference Basics | ⬜ Not started | — | — |
 | A004 | LLM Providers & APIs | ⬜ Not started | — | — |
 
@@ -107,3 +107,4 @@
 | 2026-10-24 | A001 | Teaching style revised (full detailed lesson, questions at end, no employer tie-in). First pass ~72%; errors on KV-cache growth (linear, not exponential) and GQA (shares across query heads, not tokens) logged in InterviewMistakes.md; retest passed. Next: A002 Embeddings & Semantic Similarity. |
 | 2026-10-31 | A002 (taught) | Lesson + revision file written; recall Q&A pending. Behind schedule (target was late Oct) — new target date to be agreed. A001 +7d revision due. |
 | 2026-11-18 | A002 (Q&A round 1) | Scored ~2.5/5: Q3 and Q4 good; Q1 missing tradeoff; Q2 and Q5 no answer (explained, retest pending). Lesson rewritten in System Design house style (§3.1 added to master guide). GitHub push blocked (403) — commits local only. |
+| 2026-11-18 | A002 (retest) | Retest on cosine/dot/L2 identity (R1) and model-migration (R2) passed. A002 complete. Next: A003 Tokens, Context Windows & Inference Basics (🟡 skim, ~20 min). |

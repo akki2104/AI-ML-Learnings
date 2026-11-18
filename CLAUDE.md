@@ -79,9 +79,9 @@ This track is independent of `../system design/` but shares the learner's time.
 AI/ML case studies (Module F) use the same 7-step interview framework from the
 system design track — leverage Akash's existing knowledge there.
 
-## Curriculum Position (as of 2026-10-24)
+## Curriculum Position (as of 2026-11-18)
 
-- Topics completed: 1 / 36 (A001)
+- Topics completed: 2 / 36 (A001, A002)
 - Current module: A — LLM Foundations
-- Next topic: A002 Embeddings & Semantic Similarity
-- Target: Late October 2026
+- Next topic: A003 Tokens, Context Windows & Inference Basics
+- Target: Late October 2026 (passed — new target date to be agreed)

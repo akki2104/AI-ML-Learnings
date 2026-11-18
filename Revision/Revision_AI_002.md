@@ -1,16 +1,18 @@
 # Revision — A002: Embeddings & Semantic Similarity
 
-**Topic taught:** 2026-10-31 (completion pending learner Q&A)
-**Spaced repetition schedule (from 2026-10-31):** +1d (2026-11-01) · +3d (2026-11-03) ·
-+7d (2026-11-07) · +15d (2026-11-15) · +30d (2026-11-30)
+**Topic taught:** 2026-10-31 · **Completed (passed after retest):** 2026-11-18
+**Spaced repetition schedule (from 2026-11-18):** +1d (2026-11-19) · +3d (2026-11-21) ·
++7d (2026-11-25) · +15d (2026-12-03) · +30d (2026-12-18)
 
 | Date | Reviewed? | Score |
 |------|-----------|-------|
-| 2026-11-01 | ⬜ | — |
-| 2026-11-03 | ⬜ | — |
-| 2026-11-07 | ⬜ | — |
-| 2026-11-15 | ⬜ | — |
-| 2026-11-30 | ⬜ | — |
+| 2026-11-19 | ⬜ | — |
+| 2026-11-21 | ⬜ | — |
+| 2026-11-25 | ⬜ | — |
+| 2026-12-03 | ⬜ | — |
+| 2026-12-18 | ⬜ | — |
+
+**Known weak spots (from InterviewMistakes.md):** say the tradeoff of embeddings (one vector per chunk = fast but loses detail); "length 1 → three rulers, one ranking"; "new model = new map = re-embed everything" incl. storage maths (N × dims × 4 B).
 
 ---
 

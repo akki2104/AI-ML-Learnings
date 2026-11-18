@@ -106,3 +106,4 @@
 | 2026-09-19 | — | Master guide created. Track initialized. |
 | 2026-10-24 | A001 | Teaching style revised (full detailed lesson, questions at end, no employer tie-in). First pass ~72%; errors on KV-cache growth (linear, not exponential) and GQA (shares across query heads, not tokens) logged in InterviewMistakes.md; retest passed. Next: A002 Embeddings & Semantic Similarity. |
 | 2026-10-31 | A002 (taught) | Lesson + revision file written; recall Q&A pending. Behind schedule (target was late Oct) — new target date to be agreed. A001 +7d revision due. |
+| 2026-11-18 | A002 (Q&A round 1) | Scored ~2.5/5: Q3 and Q4 good; Q1 missing tradeoff; Q2 and Q5 no answer (explained, retest pending). Lesson rewritten in System Design house style (§3.1 added to master guide). GitHub push blocked (403) — commits local only. |

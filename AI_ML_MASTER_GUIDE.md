@@ -340,6 +340,28 @@ never lecturing in one long uninterrupted block.
   If Akash wants to connect it to his own work, he'll ask — answer that when asked, don't
   pre-empt it.
 
+### §3.1 House style (added 2026-11-18 at the learner's request)
+
+The learner loves the System Design lessons (`../System-Design-Learnings/Topics/`, e.g.
+`042_Consistent_Hashing.md`, `009_DNS.md`) and found the first AI/ML lessons "different and
+irritating": jargon-heavy, fact-dumps, no thread. **Every AI/ML lesson must copy the System
+Design voice:**
+
+1. **Open with "Why This Topic Exists"** — name the exact problem the previous topic left
+   behind, in 2–3 plain sentences.
+2. **"The Problem, Precisely"** — one concrete example in a code block, showing the failure
+   with real numbers/strings, *before* any solution.
+3. **Build the solution one small idea at a time**, each with a short ASCII box.
+4. **Define every jargon term in-line at first use** — bold the term, give the plain meaning
+   in a few words, and say *why it exists*. Never assume a term is known. Prefer an
+   everyday analogy before the technical name.
+5. **Always name the tradeoff** of each mechanism, in one line.
+6. **"What it does NOT solve" / "Where it breaks"** with the fix for each.
+7. Finish with a **Tech Decision Box** + one **Interview sentence**, a **Common Mistakes**
+   table, **Real Interview Questions**, and a short **Summary** ending with "You now can:".
+8. Short sentences, concrete numbers, worked arithmetic that is actually verified.
+   No walls of bullets; no unexplained abbreviations; no "as we know".
+
 ---
 
 ## §4 — Lesson Structure

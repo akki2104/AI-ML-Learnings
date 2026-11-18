@@ -20,3 +20,21 @@ Format: mistake → why it's wrong → correct understanding → hook → recurr
 - Mistake: said the attention weight is multiplied with "the current Value vector"; said positional encoding is added to the embedding; muddled order of head-concat, residual, norm, FFN.
 - Correct: each *other* token's Value × *its own* weight, then summed. RoPE rotates Q and K inside attention (embedding untouched). Block = attention → concat heads + output projection → residual + LayerNorm → FFN → residual + LayerNorm; repeated ~32x.
 - Recurs? 1
+
+### 2026-11-18 — [A002] Similarity metrics (no answer)
+- Mistake: could not say when cosine, dot product and L2 agree.
+- Correct: if every vector is normalized to length 1, dot = cosine and distance² = 2 − 2·cosine, so all three rank identically. Normalize once at index time, then use dot product.
+- Hook: "Length 1 → three rulers, one ranking."
+- Recurs? 1
+
+### 2026-11-18 — [A002] Changing the embedding model (no answer)
+- Mistake: no answer on why a new model can't just embed new docs, and no storage maths.
+- Correct: each model has its own coordinate system; X-vectors and Y-vectors aren't comparable → re-embed ALL chunks into a new versioned index, evaluate recall@k, blue/green cutover. 1M × 1024 × 4 B ≈ 4 GB; shrink with int8 (÷4), binary (÷32), Matryoshka truncation.
+- Hook: "New model = new map = re-embed everything."
+- Recurs? 1
+
+### 2026-11-18 — [A002] Embedding tradeoff missing
+- Mistake: explained how an embedding is made but gave no tradeoff.
+- Correct: one fixed-size vector per chunk is what makes search fast and cheap, and also what loses detail (exact IDs, negation, numbers).
+- Recurs? 1
+

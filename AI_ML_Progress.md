@@ -13,7 +13,7 @@
 | Total topics | 36 |
 | Completed | 2 |
 | Mastered (gate passed) | 0 |
-| In progress | 0 |
+| In progress | 1 (B001) |
 | Case studies done | 0 / 6 |
 | Interview readiness | 0% |
 
@@ -32,7 +32,7 @@
 
 | ID | Topic | Status | Date | Mastered |
 |----|-------|--------|------|---------|
-| B001 | RAG Architecture Overview | ⬜ Not started | — | — |
+| B001 | RAG Architecture Overview | 🟡 Taught — awaiting recall Q&A | 2026-11-18 | — |
 | B002 | Chunking Strategies | ⬜ Not started | — | — |
 | B003 | Embedding Models | ⬜ Not started | — | — |
 | B004 | Vector Databases | ⬜ Not started | — | — |
@@ -108,3 +108,4 @@
 | 2026-10-31 | A002 (taught) | Lesson + revision file written; recall Q&A pending. Behind schedule (target was late Oct) — new target date to be agreed. A001 +7d revision due. |
 | 2026-11-18 | A002 (Q&A round 1) | Scored ~2.5/5: Q3 and Q4 good; Q1 missing tradeoff; Q2 and Q5 no answer (explained, retest pending). Lesson rewritten in System Design house style (§3.1 added to master guide). GitHub push blocked (403) — commits local only. |
 | 2026-11-18 | A002 (retest) | Retest on cosine/dot/L2 identity (R1) and model-migration (R2) passed. A002 complete. Next: A003 Tokens, Context Windows & Inference Basics (🟡 skim, ~20 min). |
+| 2026-11-18 | B001 (taught) | Interview approaching: switched to fast-track. Tier-1 order: B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001. A003 skipped for now. |

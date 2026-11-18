@@ -82,3 +82,25 @@ each module.
 | Date | Topic | Default Tier | Chosen Tier | Reason |
 |------|-------|-------------|-------------|--------|
 | — | — | — | — |
+
+---
+
+## Interview Fast-Track (added 2026-11-18 — interview approaching, date TBD)
+
+Learner chose this order (skips A003/A004, defers C, D002+, E005/E006, F002+):
+
+| # | Topic | Why |
+|---|-------|-----|
+| 1 | B001 RAG Architecture Overview | The core design answer |
+| 2 | D001 Fine-tune vs RAG vs Prompting | Master decision tree |
+| 3 | B007 RAG Evaluation | Differentiator |
+| 4 | B004 Vector Databases | Decision matrix |
+| 5 | B006 Reranking | Frequent deep-dive |
+| 6 | B009 Hallucination Detection & Mitigation | Learner added to Tier 1 |
+| 7 | E004 Guardrails & Safety | Learner added to Tier 1 |
+| 8 | E003 Agent Architectures | Learner added to Tier 1 |
+| 9 | E002 Tool / Function Calling | Learner added to Tier 1 |
+| 10 | F001 Document Q&A System (mock interview) | Highest-value case study |
+
+Tier 2 (if time): B002, B005, C003+C001, E005. Deviation from the standard session order is intentional.
+

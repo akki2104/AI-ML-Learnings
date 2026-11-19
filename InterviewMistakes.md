@@ -38,3 +38,19 @@ Format: mistake → why it's wrong → correct understanding → hook → recurr
 - Correct: one fixed-size vector per chunk is what makes search fast and cheap, and also what loses detail (exact IDs, negation, numbers).
 - Recurs? 1
 
+
+### 2026-11-19 — [B001] Debugging: missing the first question
+- Mistake: jumped to metrics and tuning chunk size/temperature; never asked "was the correct chunk in the prompt?".
+- Correct: first split the problem by stage — correct chunk NOT in the prompt → retrieval/indexing (chunking, hybrid search, bigger k, reranker, query rewriting); IN the prompt but answer wrong → generation (stricter grounding prompt, better model, less noise, then temperature).
+- Hook: "Was the right chunk in the prompt?"
+- Recurs? 1
+
+### 2026-11-19 — [B001] Why not fine-tune for document facts
+- Mistake: said fine-tuning changes behaviour but argued only that embeddings are cheaper to refresh.
+- Correct: fine-tuning is poor at injecting facts (can still hallucinate), goes stale, gives no citations, cannot enforce per-user access, and is slow/costly to redo per document; use it for style/format/behaviour.
+- Recurs? 1
+
+### 2026-11-19 — [B001] Pipeline stages incomplete
+- Mistake: said the query is turned into chunks; left out parse/metadata, filtering, reranking and the grounded prompt.
+- Correct: only the documents are chunked; the query is just embedded. Full chain: parse → chunk → embed → store+metadata | embed query → hybrid search → filter → rerank → grounded prompt → LLM + citations.
+- Recurs? 1

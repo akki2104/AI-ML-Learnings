@@ -54,3 +54,9 @@ Format: mistake → why it's wrong → correct understanding → hook → recurr
 - Mistake: said the query is turned into chunks; left out parse/metadata, filtering, reranking and the grounded prompt.
 - Correct: only the documents are chunked; the query is just embedded. Full chain: parse → chunk → embed → store+metadata | embed query → hybrid search → filter → rerank → grounded prompt → LLM + citations.
 - Recurs? 1
+
+### 2026-11-19 — [B001] Access control & numbers wording
+- Mistake: said the client sends the team id with the query; called vectors "int32".
+- Correct: derive the team id from the authenticated token on the server (a client-sent id can be spoofed); embeddings are float32 (4 bytes/number — hence the 3 GB). Query endpoint should be POST (body carries the question).
+- Hook: "Identity comes from the token, never from the request."
+- Recurs? 1

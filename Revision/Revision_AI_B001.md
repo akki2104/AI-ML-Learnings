@@ -1,16 +1,18 @@
 # Revision — B001: RAG Architecture Overview
 
-**Topic taught:** 2026-11-18 (completion pending learner Q&A)
-**Spaced repetition schedule (from 2026-11-18):** +1d (2026-11-19) · +3d (2026-11-21) ·
-+7d (2026-11-25) · +15d (2026-12-03) · +30d (2026-12-18)
+**Topic taught:** 2026-11-18 · **Completed (passed after retest):** 2026-11-19
+**Spaced repetition schedule (from 2026-11-19):** +1d (2026-11-20) · +3d (2026-11-22) ·
++7d (2026-11-26) · +15d (2026-12-04) · +30d (2026-12-19)
 
 | Date | Reviewed? | Score |
 |------|-----------|-------|
-| 2026-11-19 | ⬜ | — |
-| 2026-11-21 | ⬜ | — |
-| 2026-11-25 | ⬜ | — |
-| 2026-12-03 | ⬜ | — |
-| 2026-12-18 | ⬜ | — |
+| 2026-11-20 | ⬜ | — |
+| 2026-11-22 | ⬜ | — |
+| 2026-11-26 | ⬜ | — |
+| 2026-12-04 | ⬜ | — |
+| 2026-12-19 | ⬜ | — |
+
+**Known weak spots (from InterviewMistakes.md):** first debug question = "was the right chunk in the prompt?"; fine-tuning is poor at facts/no citations; only documents are chunked; take the team id from the auth token, never from the client.
 
 ---
 

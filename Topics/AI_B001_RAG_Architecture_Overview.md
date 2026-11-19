@@ -2,7 +2,7 @@
 
 **Module:** B — RAG Systems
 **Tier:** 🔴 MUST (interview fast-track: priority 1)
-**Status:** Taught 2026-11-18 (recall Q&A pending)
+**Status:** Completed 2026-11-19 (passed after retest)
 **Difficulty:** Medium
 
 ---

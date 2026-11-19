@@ -11,9 +11,9 @@
 | Metric | Count |
 |--------|-------|
 | Total topics | 36 |
-| Completed | 2 |
+| Completed | 3 |
 | Mastered (gate passed) | 0 |
-| In progress | 1 (B001) |
+| In progress | 0 |
 | Case studies done | 0 / 6 |
 | Interview readiness | 0% |
 
@@ -28,11 +28,11 @@
 | A003 | Tokens, Context Windows & Inference Basics | ⬜ Not started | — | — |
 | A004 | LLM Providers & APIs | ⬜ Not started | — | — |
 
-## Module B — RAG Systems (0 / 9)
+## Module B — RAG Systems (1 / 9)
 
 | ID | Topic | Status | Date | Mastered |
 |----|-------|--------|------|---------|
-| B001 | RAG Architecture Overview | 🟡 Taught — awaiting recall Q&A | 2026-11-18 | — |
+| B001 | RAG Architecture Overview | ✅ Completed (passed after retest) | 2026-11-19 | — |
 | B002 | Chunking Strategies | ⬜ Not started | — | — |
 | B003 | Embedding Models | ⬜ Not started | — | — |
 | B004 | Vector Databases | ⬜ Not started | — | — |
@@ -109,3 +109,4 @@
 | 2026-11-18 | A002 (Q&A round 1) | Scored ~2.5/5: Q3 and Q4 good; Q1 missing tradeoff; Q2 and Q5 no answer (explained, retest pending). Lesson rewritten in System Design house style (§3.1 added to master guide). GitHub push blocked (403) — commits local only. |
 | 2026-11-18 | A002 (retest) | Retest on cosine/dot/L2 identity (R1) and model-migration (R2) passed. A002 complete. Next: A003 Tokens, Context Windows & Inference Basics (🟡 skim, ~20 min). |
 | 2026-11-18 | B001 (taught) | Interview approaching: switched to fast-track. Tier-1 order: B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001. A003 skipped for now. |
+| 2026-11-19 | B001 (retest) | Q1 full; Q2–Q4 ¾ each; Q5 design answer passed with two fixes (use float32 not int32; take team id from the authenticated token server-side, not from the client). B001 complete. Next on fast-track: D001 Fine-tune vs RAG vs Prompting. |

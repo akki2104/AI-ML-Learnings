@@ -121,7 +121,7 @@ Focus: agents, evals/traces, state, digital-shelf domain, Python/SQL, debugging 
 | B | 6 | AI shopping assistants & visibility (Rufus, ChatGPT shopping, GEO vs SEO) | new (DS2) | ⬜ |
 | B | 7 | Measuring "did it work" (control groups, A/B, presenting bad results) | new (DS3) | ⬜ |
 | C — practice | 8 | SQL & Python on catalog data | new (CS1) | ⬜ |
-| C | 9 | FDE scenarios: debugging customer data, saying no, explaining to a brand manager | new (FDE1) | ⬜ |
+| C | 9 | Customer scenarios: debugging customer data, saying no, explaining to a brand manager | new (CX1) | ⬜ |
 | C | 10 | System design (AI visibility tracker) + full mock | F-style | ⬜ |
 
 Minimum if short on time: 1, 3, 5, 6, 8, 9.

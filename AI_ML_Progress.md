@@ -110,4 +110,4 @@
 | 2026-11-18 | A002 (retest) | Retest on cosine/dot/L2 identity (R1) and model-migration (R2) passed. A002 complete. Next: A003 Tokens, Context Windows & Inference Basics (🟡 skim, ~20 min). |
 | 2026-11-18 | B001 (taught) | Interview approaching: switched to fast-track. Tier-1 order: B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001. A003 skipped for now. |
 | 2026-11-19 | B001 (retest) | Q1 full; Q2–Q4 ¾ each; Q5 design answer passed with two fixes (use float32 not int32; take team id from the authenticated token server-side, not from the client). B001 complete. Next on fast-track: D001 Fine-tune vs RAG vs Prompting. |
-| 2026-11-21 | E006 | Interview-driven reorder (Forward Deployed Engineer, agentic digital-shelf role). Focus on Langfuse/LangSmith. First pass: Q1/Q4 solid, Q2/Q3 partial, Q5 missed; retest passed. Taught out of fast-track order at learner request. |
+| 2026-11-21 | E006 | Moved into the Priority Track. Focus on Langfuse/LangSmith. First pass: Q1/Q4 solid, Q2/Q3 partial, Q5 missed; retest passed. Taught out of fast-track order at learner request. |

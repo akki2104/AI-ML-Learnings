@@ -1,6 +1,6 @@
 # E006 — Observability for LLMs (Langfuse, LangSmith & co.)
 
-**Tier:** 🟡 SKIM in curriculum → taught as full lesson (interview priority: Forward Deployed Engineer, agentic digital-shelf company)
+**Tier:** 🟡 SKIM in curriculum → taught as full lesson (Priority Track)
 **Date taught:** 2026-11-21
 
 ---
@@ -97,7 +97,7 @@ Offline evals (5) gate releases; online evals (1–2) catch what the dataset mis
 | Agent behaviour | Tool calls per run, rounds per run, runs hitting the cap, tool error rate |
 | Retrieval | Chunks retrieved vs kept after threshold, top rerank score, "no evidence" rate |
 
-## 8. Applied to digital-shelf content generation (the target company)
+## 8. Applied example: digital-shelf content generation
 ```
 Trace: generate content for SKU 12345 on Amazon
  ├── Span  fetch product data      (catalogue attributes)

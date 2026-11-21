@@ -82,7 +82,7 @@ each module.
 | Date | Topic | Default Tier | Chosen Tier | Reason |
 |------|-------|-------------|-------------|--------|
 | 2026-11-18 | Order changed to Interview Fast-Track (B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001) | standard A→B→C→D→E→F order | 🔴 for the listed topics; A003/A004/C004/D003–D005/E001/E006/F005 deferred | Interview approaching (date TBD); learner chose and extended the list. D001 is next because it is the master decision tree. |
-| 2026-11-21 | E006 Observability | 🟡 SKIM | 🔴 Full lesson, taught early | Interview prep for FDE role (agents, evals, traces); order now interview-driven |
+| 2026-11-21 | E006 Observability | 🟡 SKIM | 🔴 Full lesson, taught early | Moved into the Priority Track |
 
 ---
 
@@ -107,21 +107,20 @@ Tier 2 (if time): B002, B005, C003+C001, E005. Deviation from the standard sessi
 
 ---
 
-## FDE Interview Plan — ACTIVE (adopted 2026-11-21, supersedes the Fast-Track order for now)
+## Priority Track — ACTIVE (adopted 2026-11-21, finish these first; supersedes the Fast-Track order for now)
 
-Target role: Forward Deployed Engineer, agentic digital-shelf company (agents, evals/traces, state,
-AI-shopping visibility, Python/SQL, customer-facing debugging). Study-only (no building).
+Focus: agents, evals/traces, state, digital-shelf domain, Python/SQL, debugging on real data. Study-only.
 
 | Block | # | Session | Maps to | Status |
 |---|---|---|---|---|
-| A — own answers | 1 | Tool calling & agent loops | E002 | ⬜ next |
+| A — agents & evals | 1 | Tool calling & agent loops | E002 | ⬜ next |
 | A | 2 | Agent architectures & LangGraph | E003 | ⬜ |
 | A | 3 | RAG evaluation & reranking (RAGAS, LLM judge, min-max vs sigmoid) | B007 + B006 | ⬜ |
 | A | 4 | Observability (Langfuse/LangSmith focus) | E006 | ✅ 2026-11-21 |
 | B — their domain | 5 | Digital shelf: product pages, retailer rules, metrics | new (DS1) | ⬜ |
 | B | 6 | AI shopping assistants & visibility (Rufus, ChatGPT shopping, GEO vs SEO) | new (DS2) | ⬜ |
 | B | 7 | Measuring "did it work" (control groups, A/B, presenting bad results) | new (DS3) | ⬜ |
-| C — other rounds | 8 | SQL & Python on catalog data | new (CS1) | ⬜ |
+| C — practice | 8 | SQL & Python on catalog data | new (CS1) | ⬜ |
 | C | 9 | FDE scenarios: debugging customer data, saying no, explaining to a brand manager | new (FDE1) | ⬜ |
 | C | 10 | System design (AI visibility tracker) + full mock | F-style | ⬜ |
 

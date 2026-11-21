@@ -81,7 +81,7 @@ system design track — leverage Akash's existing knowledge there.
 
 ## Curriculum Position (as of 2026-11-21)
 
-- Topics completed: 4 / 36 (A001, A002, B001, E006)
+- Topics completed: 5 / 36 (A001, A002, B001, E002, E006)
 - Mode: Priority Track (ACTIVE) — see `AI_ML_TopicPriority.md` → Priority Track. Fast-Track list is the fallback.
-- Next topic: Block A Session 1 — Tool calling & agent loops (E002)
+- Next topic: Priority Track Session 2 — Agent architectures & LangGraph (E003)
 - Target: Late October 2026 (passed — new target date to be agreed)

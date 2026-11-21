@@ -113,8 +113,8 @@ Focus: agents, evals/traces, state, digital-shelf domain, Python/SQL, debugging 
 
 | Block | # | Session | Maps to | Status |
 |---|---|---|---|---|
-| A — agents & evals | 1 | Tool calling & agent loops | E002 | ⬜ next |
-| A | 2 | Agent architectures & LangGraph | E003 | ⬜ |
+| A — agents & evals | 1 | Tool calling & agent loops | E002 | ✅ 2026-11-21 |
+| A | 2 | Agent architectures & LangGraph | E003 | ⬜ next |
 | A | 3 | RAG evaluation & reranking (RAGAS, LLM judge, min-max vs sigmoid) | B007 + B006 | ⬜ |
 | A | 4 | Observability (Langfuse/LangSmith focus) | E006 | ✅ 2026-11-21 |
 | B — their domain | 5 | Digital shelf: product pages, retailer rules, metrics | new (DS1) | ⬜ |

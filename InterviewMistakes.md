@@ -69,3 +69,11 @@ Format: mistake → why it's wrong → correct understanding → hook → recurr
 - Mistake: content-gen trace described as a shopper/customer query.
 - Correct: one content-generation job for one product on one retailer; "customer" = the brand.
 - Recurs? 1
+
+### 2026-11-21 — [E002] Tool-calling round trip
+- Mistake: listed only "append the result"; said tools go in the system prompt; treated a single tool timeout as ending the loop.
+- Correct: append (1) the echoed assistant tool-call message and (2) a `tool` message with the same `tool_call_id`, then resend the whole history. Tools go in the `tools` parameter; the provider injects them. One slow tool returns an error result; only the overall budget ends the loop.
+- Mistake: could not name the review-injection risk or give defences beyond server-side ids.
+- Correct: indirect prompt injection → least privilege, delimiters ("data, not instructions"), no publishing without approval/deterministic check, output validation vs product data.
+- Hook: "Echo, then answer — same id."
+- Recurs? 1

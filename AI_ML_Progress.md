@@ -11,7 +11,7 @@
 | Metric | Count |
 |--------|-------|
 | Total topics | 36 |
-| Completed | 4 |
+| Completed | 5 |
 | Mastered (gate passed) | 0 |
 | In progress | 0 |
 | Case studies done | 0 / 6 |
@@ -64,12 +64,12 @@
 | D004 | Training Data Requirements | ⬜ Not started | — | — |
 | D005 | Model Evaluation & Benchmarking | ⬜ Not started | — | — |
 
-## Module E — LLM Application Architecture (1 / 6)
+## Module E — LLM Application Architecture (2 / 6)
 
 | ID | Topic | Status | Date | Mastered |
 |----|-------|--------|------|---------|
 | E001 | Prompt Engineering Patterns | ⬜ Not started | — | — |
-| E002 | Tool Calling & Function Calling | ⬜ Not started | — | — |
+| E002 | Tool Calling & Function Calling | ✅ Completed (passed after retest) | 2026-11-21 | — |
 | E003 | Agent Architectures (ReAct, LangGraph) | ⬜ Not started | — | — |
 | E004 | Guardrails & Safety | ⬜ Not started | — | — |
 | E005 | Cost Optimization | ⬜ Not started | — | — |
@@ -111,3 +111,4 @@
 | 2026-11-18 | B001 (taught) | Interview approaching: switched to fast-track. Tier-1 order: B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001. A003 skipped for now. |
 | 2026-11-19 | B001 (retest) | Q1 full; Q2–Q4 ¾ each; Q5 design answer passed with two fixes (use float32 not int32; take team id from the authenticated token server-side, not from the client). B001 complete. Next on fast-track: D001 Fine-tune vs RAG vs Prompting. |
 | 2026-11-21 | E006 | Moved into the Priority Track. Focus on Langfuse/LangSmith. First pass: Q1/Q4 solid, Q2/Q3 partial, Q5 missed; retest passed. Taught out of fast-track order at learner request. |
+| 2026-11-21 | E002 | Priority Track Session 1. Q3/Q4 solid; Q1/Q2 ~70–75% (missing echoed tool-call message, tools param vs system prompt); Q5 ~30% (injection risk + pipeline example); retest passed. Next: Session 2 — Agent architectures & LangGraph (E003). |

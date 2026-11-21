@@ -105,3 +105,24 @@ Learner chose this order (skips A003/A004, defers C, D002+, E005/E006, F002+):
 
 Tier 2 (if time): B002, B005, C003+C001, E005. Deviation from the standard session order is intentional.
 
+---
+
+## FDE Interview Plan — ACTIVE (adopted 2026-11-21, supersedes the Fast-Track order for now)
+
+Target role: Forward Deployed Engineer, agentic digital-shelf company (agents, evals/traces, state,
+AI-shopping visibility, Python/SQL, customer-facing debugging). Study-only (no building).
+
+| Block | # | Session | Maps to | Status |
+|---|---|---|---|---|
+| A — own answers | 1 | Tool calling & agent loops | E002 | ⬜ next |
+| A | 2 | Agent architectures & LangGraph | E003 | ⬜ |
+| A | 3 | RAG evaluation & reranking (RAGAS, LLM judge, min-max vs sigmoid) | B007 + B006 | ⬜ |
+| A | 4 | Observability (Langfuse/LangSmith focus) | E006 | ✅ 2026-11-21 |
+| B — their domain | 5 | Digital shelf: product pages, retailer rules, metrics | new (DS1) | ⬜ |
+| B | 6 | AI shopping assistants & visibility (Rufus, ChatGPT shopping, GEO vs SEO) | new (DS2) | ⬜ |
+| B | 7 | Measuring "did it work" (control groups, A/B, presenting bad results) | new (DS3) | ⬜ |
+| C — other rounds | 8 | SQL & Python on catalog data | new (CS1) | ⬜ |
+| C | 9 | FDE scenarios: debugging customer data, saying no, explaining to a brand manager | new (FDE1) | ⬜ |
+| C | 10 | System design (AI visibility tracker) + full mock | F-style | ⬜ |
+
+Minimum if short on time: 1, 3, 5, 6, 8, 9.

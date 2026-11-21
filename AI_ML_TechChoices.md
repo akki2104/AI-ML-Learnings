@@ -61,6 +61,27 @@
 
 ---
 
+## Similarity Metric (for embeddings)
+
+**Use cosine similarity when:**
+- Default for text embeddings; you care about direction (meaning), not vector length
+- The model's documentation says it was trained with cosine
+
+**Use dot product when:**
+- Vectors are already L2-normalized (identical ranking to cosine, cheaper)
+- The model was trained with dot product (some retrieval models, recommendation two-tower models)
+
+**Use Euclidean (L2) when:**
+- The model/index was built around distance, or magnitude carries meaning
+- Note: for normalized vectors L2² = 2 − 2·cos, so ranking is the same as cosine
+
+**Do NOT:**
+- Mix metrics between model training and the vector DB index setting — recall drops silently
+- Use dot product on unnormalized vectors and expect length-invariant results (long vectors win)
+- Compare scores or thresholds across different embedding models — scores are not calibrated
+
+---
+
 ## Vector Database
 
 **Use pgvector when:**

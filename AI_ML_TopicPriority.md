@@ -82,6 +82,7 @@ each module.
 | Date | Topic | Default Tier | Chosen Tier | Reason |
 |------|-------|-------------|-------------|--------|
 | 2026-11-18 | Order changed to Interview Fast-Track (B001 → D001 → B007 → B004 → B006 → B009 → E004 → E003 → E002 → F001) | standard A→B→C→D→E→F order | 🔴 for the listed topics; A003/A004/C004/D003–D005/E001/E006/F005 deferred | Interview approaching (date TBD); learner chose and extended the list. D001 is next because it is the master decision tree. |
+| 2026-11-21 | E006 Observability | 🟡 SKIM | 🔴 Full lesson, taught early | Interview prep for FDE role (agents, evals, traces); order now interview-driven |
 
 ---
 

@@ -79,9 +79,10 @@ This track is independent of `../system design/` but shares the learner's time.
 AI/ML case studies (Module F) use the same 7-step interview framework from the
 system design track — leverage Akash's existing knowledge there.
 
-## Curriculum Position (as of 2026-11-19)
+## Curriculum Position (as of 2026-11-21)
 
-- Topics completed: 3 / 36 (A001, A002, B001)
+- Topics completed: 4 / 36 (A001, A002, B001, E006)
 - Mode: interview fast-track (see `AI_ML_TopicPriority.md` → Interview Fast-Track)
+- Interview: Forward Deployed Engineer, agentic digital-shelf company (agents, evals/traces, state, AI-shopping visibility)
 - Next topic: D001 When to Fine-tune vs RAG vs Prompting
 - Target: Late October 2026 (passed — new target date to be agreed)

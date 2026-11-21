@@ -60,3 +60,12 @@ Format: mistake → why it's wrong → correct understanding → hook → recurr
 - Correct: derive the team id from the authenticated token on the server (a client-sent id can be spoofed); embeddings are float32 (4 bytes/number — hence the 3 GB). Query endpoint should be POST (body carries the question).
 - Hook: "Identity comes from the token, never from the request."
 - Recurs? 1
+
+### 2026-11-21 — [E006] LLM observability
+- Mistake: trace = whole case AND session = case; treated the LLM call as a plain span.
+- Correct: session = case, trace = one question; a *generation* is the LLM-call observation (model, prompt, tokens, cost).
+- Mistake: said "LangChain" for LangSmith; "LangSmith for all other cases".
+- Correct: decide by data sensitivity (self-hosted Langfuse) and framework fit (LangSmith for LangChain/LangGraph + SaaS OK).
+- Mistake: content-gen trace described as a shopper/customer query.
+- Correct: one content-generation job for one product on one retailer; "customer" = the brand.
+- Recurs? 1
